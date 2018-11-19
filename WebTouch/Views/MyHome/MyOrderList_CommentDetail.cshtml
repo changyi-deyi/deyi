@@ -1,0 +1,474 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="MyOrderListCommentDetailApp" ng-controller="MyOrderListCommentDetailCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyOrderList_All?i={{tag}}">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>填写评价</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <!--订单列表-->
+            <ul class="borderBox width100 P1_1x whiteBkg">
+                <li class="MB1x">
+                    <div class="clearfix flex-box">
+                        <p class="fl width30 textL">
+                            总体
+                        </p>
+                        <p class="fr width70 textR">
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':OverallYellowTex1,'lightgrayTex':OverallLightgrayTex1}" ng-click="ChangeOverall(1);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':OverallYellowTex2,'lightgrayTex':OverallLightgrayTex2}" ng-click="ChangeOverall(2);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':OverallYellowTex3,'lightgrayTex':OverallLightgrayTex3}" ng-click="ChangeOverall(3);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':OverallYellowTex4,'lightgrayTex':OverallLightgrayTex4}" ng-click="ChangeOverall(4);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':OverallYellowTex5,'lightgrayTex':OverallLightgrayTex5}" ng-click="ChangeOverall(5);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                        </p>
+                    </div>
+                </li>
+                <li class="MB1x">
+                    <div class="clearfix flex-box">
+                        <p class="fl width30 textL">
+                            专业质量
+                        </p>
+                        <p class="fr width70 textR">
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':ProfessionYellowTex1,'lightgrayTex':ProfessionLightgrayTex1}" ng-click="ChangeProfession(1);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':ProfessionYellowTex2,'lightgrayTex':ProfessionLightgrayTex2}" ng-click="ChangeProfession(2);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':ProfessionYellowTex3,'lightgrayTex':ProfessionLightgrayTex3}" ng-click="ChangeProfession(3);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':ProfessionYellowTex4,'lightgrayTex':ProfessionLightgrayTex4}" ng-click="ChangeProfession(4);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':ProfessionYellowTex5,'lightgrayTex':ProfessionLightgrayTex5}" ng-click="ChangeProfession(5);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                        </p>
+                    </div>
+                </li>
+                <li class="MB1x">
+                    <div class="clearfix flex-box">
+                        <p class="fl width30 textL">
+                            态度
+                        </p>
+                        <p class="fr width70 textR">
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':AltitudeYellowTex1,'lightgrayTex':AltitudeLightgrayTex1}" ng-click="ChangeAltitude(1);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':AltitudeYellowTex2,'lightgrayTex':AltitudeLightgrayTex2}" ng-click="ChangeAltitude(2);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':AltitudeYellowTex3,'lightgrayTex':AltitudeLightgrayTex3}" ng-click="ChangeAltitude(3);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':AltitudeYellowTex4,'lightgrayTex':AltitudeLightgrayTex4}" ng-click="ChangeAltitude(4);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_2x" ng-class="{'yellowTex':AltitudeYellowTex5,'lightgrayTex':AltitudeLightgrayTex5}" ng-click="ChangeAltitude(5);"><span class="iconfont font1_5x">&#xe609;</span></a>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="clearfix flex-box MB1x">
+                        <p class="fl width40 textL">
+                            问题是否得到解决
+                        </p>
+                        <p class="fr width60 textR">
+                            <a class="inlineB PLR0_4x ML0_4x" ng-class="{'yellowTex':IsSoluteYellowTex1,'grayTex':IsSoluteGrayTex1}" ng-click="ChangeIsSolute(1);">是<span class="iconfont font1_5x ML0_4x">&#xe609;</span></a>
+                            <a class="inlineB PLR0_4x ML0_4x" ng-class="{'yellowTex':IsSoluteYellowTex2,'grayTex':IsSoluteGrayTex2}" ng-click="ChangeIsSolute(2);">否<span class="iconfont font1_5x ML0_4x">&#xe609;</span></a>
+                        </p>
+                    </div>
+                    <p class="font09x">
+                        <textarea class="borderBox width100 P0_8x border1 borderGray lineHeight1_5x" style="height: 10em;" placeholder="请留下您对服务的评价" ng-model="comment"></textarea>
+                    </p>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="SetComment()">提交评价</a>
+                <!--<a class="btnSmall dy_btn lightgrayBkg whiteTex" href="Home.html">提交评价</a>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('MyOrderListCommentDetailApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    app.controller('MyOrderListCommentDetailCtrl', function ($scope, $http, $location) {
+        $scope.orderCode = $location.search().o; // 订单编号
+        $scope.doctorCode = $location.search().c; // 安排医生编号
+        $scope.tag = $location.search().i; // 我的订单Tab页记录
+        $scope.overall = 1; // 总体评分
+        $scope.profession = 1; // 专业质量评分
+        $scope.altitude = 1; // 态度
+        $scope.isSolute = 1; // 问题是否解决
+        $scope.SetComment = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/setComment',
+                params: {
+                    OrderCode: $scope.orderCode,
+                    DoctorCode: $scope.doctorCode,
+                    Overall: $scope.overall,
+                    Profession: $scope.profession,
+                    Altitude: $scope.altitude,
+                    IsSolute: $scope.isSolute,
+                    Comment: $scope.comment
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    swal(req.Message);
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        // 总体
+        $scope.OverallYellowTex1 = true;
+        $scope.OverallYellowTex2 = false;
+        $scope.OverallYellowTex3 = false;
+        $scope.OverallYellowTex4 = false;
+        $scope.OverallYellowTex5 = false;
+        $scope.OverallLightgrayTex1 = false;
+        $scope.OverallLightgrayTex2 = true;
+        $scope.OverallLightgrayTex3 = true;
+        $scope.OverallLightgrayTex4 = true;
+        $scope.OverallLightgrayTex5 = true;
+        $scope.ChangeOverall = function (val) {
+            $scope.overall = val;
+            if (val == 1) {
+                if ($scope.OverallYellowTex1) {
+                    $scope.OverallLightgrayTex2 = true;
+                    $scope.OverallLightgrayTex3 = true;
+                    $scope.OverallLightgrayTex4 = true;
+                    $scope.OverallLightgrayTex5 = true;
+                    $scope.OverallYellowTex2 = false;
+                    $scope.OverallYellowTex3 = false;
+                    $scope.OverallYellowTex4 = false;
+                    $scope.OverallYellowTex5 = false;
+                }
+            }
+            if (val == 2) {
+                if ($scope.OverallYellowTex2) {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = false;
+                    $scope.OverallYellowTex4 = false;
+                    $scope.OverallYellowTex5 = false;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = true;
+                    $scope.OverallLightgrayTex4 = true;
+                    $scope.OverallLightgrayTex5 = true;
+                } else {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = false;
+                    $scope.OverallYellowTex4 = false;
+                    $scope.OverallYellowTex5 = false;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = true;
+                    $scope.OverallLightgrayTex4 = true;
+                    $scope.OverallLightgrayTex5 = true;
+                }
+            }
+            if (val == 3) {
+                if ($scope.OverallYellowTex3) {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = true;
+                    $scope.OverallYellowTex4 = false;
+                    $scope.OverallYellowTex5 = false;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = false;
+                    $scope.OverallLightgrayTex4 = true;
+                    $scope.OverallLightgrayTex5 = true;
+                } else {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = true;
+                    $scope.OverallYellowTex4 = false;
+                    $scope.OverallYellowTex5 = false;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = false;
+                    $scope.OverallLightgrayTex4 = true;
+                    $scope.OverallLightgrayTex5 = true;
+                }
+            }
+            if (val == 4) {
+                if ($scope.OverallYellowTex4) {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = true;
+                    $scope.OverallYellowTex4 = true;
+                    $scope.OverallYellowTex5 = false;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = false;
+                    $scope.OverallLightgrayTex4 = false;
+                    $scope.OverallLightgrayTex5 = true;
+                } else {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = true;
+                    $scope.OverallYellowTex4 = true;
+                    $scope.OverallYellowTex5 = false;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = false;
+                    $scope.OverallLightgrayTex4 = false;
+                    $scope.OverallLightgrayTex5 = true;
+                }
+            }
+            if (val == 5) {
+                if ($scope.OverallYellowTex5) {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = true;
+                    $scope.OverallYellowTex4 = true;
+                    $scope.OverallYellowTex5 = true;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = false;
+                    $scope.OverallLightgrayTex4 = false;
+                    $scope.OverallLightgrayTex5 = false;
+                } else {
+                    $scope.OverallYellowTex2 = true;
+                    $scope.OverallYellowTex3 = true;
+                    $scope.OverallYellowTex4 = true;
+                    $scope.OverallYellowTex5 = true;
+                    $scope.OverallLightgrayTex2 = false;
+                    $scope.OverallLightgrayTex3 = false;
+                    $scope.OverallLightgrayTex4 = false;
+                    $scope.OverallLightgrayTex5 = false;
+                }
+            }
+        };
+        // 专业质量
+        $scope.ProfessionYellowTex1 = true;
+        $scope.ProfessionYellowTex2 = false;
+        $scope.ProfessionYellowTex3 = false;
+        $scope.ProfessionYellowTex4 = false;
+        $scope.ProfessionYellowTex5 = false;
+        $scope.ProfessionLightgrayTex1 = false;
+        $scope.ProfessionLightgrayTex2 = true;
+        $scope.ProfessionLightgrayTex3 = true;
+        $scope.ProfessionLightgrayTex4 = true;
+        $scope.ProfessionLightgrayTex5 = true;
+        $scope.ChangeProfession = function (val) {
+            $scope.profession = val;
+            if (val == 1) {
+                if ($scope.ProfessionYellowTex1) {
+                    $scope.ProfessionLightgrayTex2 = true;
+                    $scope.ProfessionLightgrayTex3 = true;
+                    $scope.ProfessionLightgrayTex4 = true;
+                    $scope.ProfessionLightgrayTex5 = true;
+                    $scope.ProfessionYellowTex2 = false;
+                    $scope.ProfessionYellowTex3 = false;
+                    $scope.ProfessionYellowTex4 = false;
+                    $scope.ProfessionYellowTex5 = false;
+                }
+            }
+            if (val == 2) {
+                if ($scope.ProfessionYellowTex2) {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = false;
+                    $scope.ProfessionYellowTex4 = false;
+                    $scope.ProfessionYellowTex5 = false;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = true;
+                    $scope.ProfessionLightgrayTex4 = true;
+                    $scope.ProfessionLightgrayTex5 = true;
+                } else {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = false;
+                    $scope.ProfessionYellowTex4 = false;
+                    $scope.ProfessionYellowTex5 = false;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = true;
+                    $scope.ProfessionLightgrayTex4 = true;
+                    $scope.ProfessionLightgrayTex5 = true;
+                }
+            }
+            if (val == 3) {
+                if ($scope.ProfessionYellowTex3) {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = true;
+                    $scope.ProfessionYellowTex4 = false;
+                    $scope.ProfessionYellowTex5 = false;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = false;
+                    $scope.ProfessionLightgrayTex4 = true;
+                    $scope.ProfessionLightgrayTex5 = true;
+                } else {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = true;
+                    $scope.ProfessionYellowTex4 = false;
+                    $scope.ProfessionYellowTex5 = false;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = false;
+                    $scope.ProfessionLightgrayTex4 = true;
+                    $scope.ProfessionLightgrayTex5 = true;
+                }
+            }
+            if (val == 4) {
+                if ($scope.ProfessionYellowTex4) {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = true;
+                    $scope.ProfessionYellowTex4 = true;
+                    $scope.ProfessionYellowTex5 = false;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = false;
+                    $scope.ProfessionLightgrayTex4 = false;
+                    $scope.ProfessionLightgrayTex5 = true;
+                } else {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = true;
+                    $scope.ProfessionYellowTex4 = true;
+                    $scope.ProfessionYellowTex5 = false;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = false;
+                    $scope.ProfessionLightgrayTex4 = false;
+                    $scope.ProfessionLightgrayTex5 = true;
+                }
+            }
+            if (val == 5) {
+                if ($scope.ProfessionYellowTex5) {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = true;
+                    $scope.ProfessionYellowTex4 = true;
+                    $scope.ProfessionYellowTex5 = true;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = false;
+                    $scope.ProfessionLightgrayTex4 = false;
+                    $scope.ProfessionLightgrayTex5 = false;
+                } else {
+                    $scope.ProfessionYellowTex2 = true;
+                    $scope.ProfessionYellowTex3 = true;
+                    $scope.ProfessionYellowTex4 = true;
+                    $scope.ProfessionYellowTex5 = true;
+                    $scope.ProfessionLightgrayTex2 = false;
+                    $scope.ProfessionLightgrayTex3 = false;
+                    $scope.ProfessionLightgrayTex4 = false;
+                    $scope.ProfessionLightgrayTex5 = false;
+                }
+            }
+        };
+        // 态度
+        $scope.AltitudeYellowTex1 = true;
+        $scope.AltitudeYellowTex2 = false;
+        $scope.AltitudeYellowTex3 = false;
+        $scope.AltitudeYellowTex4 = false;
+        $scope.AltitudeYellowTex5 = false;
+        $scope.AltitudeLightgrayTex1 = false;
+        $scope.AltitudeLightgrayTex2 = true;
+        $scope.AltitudeLightgrayTex3 = true;
+        $scope.AltitudeLightgrayTex4 = true;
+        $scope.AltitudeLightgrayTex5 = true;
+        $scope.ChangeAltitude = function (val) {
+            $scope.altitude = val;
+            if (val == 1) {
+                if ($scope.AltitudeYellowTex1) {
+                    $scope.AltitudeLightgrayTex2 = true;
+                    $scope.AltitudeLightgrayTex3 = true;
+                    $scope.AltitudeLightgrayTex4 = true;
+                    $scope.AltitudeLightgrayTex5 = true;
+                    $scope.AltitudeYellowTex2 = false;
+                    $scope.AltitudeYellowTex3 = false;
+                    $scope.AltitudeYellowTex4 = false;
+                    $scope.AltitudeYellowTex5 = false;
+                }
+            }
+            if (val == 2) {
+                if ($scope.AltitudeYellowTex2) {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = false;
+                    $scope.AltitudeYellowTex4 = false;
+                    $scope.AltitudeYellowTex5 = false;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = true;
+                    $scope.AltitudeLightgrayTex4 = true;
+                    $scope.AltitudeLightgrayTex5 = true;
+                } else {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = false;
+                    $scope.AltitudeYellowTex4 = false;
+                    $scope.AltitudeYellowTex5 = false;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = true;
+                    $scope.AltitudeLightgrayTex4 = true;
+                    $scope.AltitudeLightgrayTex5 = true;
+                }
+            }
+            if (val == 3) {
+                if ($scope.AltitudeYellowTex3) {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = true;
+                    $scope.AltitudeYellowTex4 = false;
+                    $scope.AltitudeYellowTex5 = false;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = false;
+                    $scope.AltitudeLightgrayTex4 = true;
+                    $scope.AltitudeLightgrayTex5 = true;
+                } else {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = true;
+                    $scope.AltitudeYellowTex4 = false;
+                    $scope.AltitudeYellowTex5 = false;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = false;
+                    $scope.AltitudeLightgrayTex4 = true;
+                    $scope.AltitudeLightgrayTex5 = true;
+                }
+            }
+            if (val == 4) {
+                if ($scope.AltitudeYellowTex4) {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = true;
+                    $scope.AltitudeYellowTex4 = true;
+                    $scope.AltitudeYellowTex5 = false;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = false;
+                    $scope.AltitudeLightgrayTex4 = false;
+                    $scope.AltitudeLightgrayTex5 = true;
+                } else {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = true;
+                    $scope.AltitudeYellowTex4 = true;
+                    $scope.AltitudeYellowTex5 = false;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = false;
+                    $scope.AltitudeLightgrayTex4 = false;
+                    $scope.AltitudeLightgrayTex5 = true;
+                }
+            }
+            if (val == 5) {
+                if ($scope.AltitudeYellowTex5) {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = true;
+                    $scope.AltitudeYellowTex4 = true;
+                    $scope.AltitudeYellowTex5 = true;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = false;
+                    $scope.AltitudeLightgrayTex4 = false;
+                    $scope.AltitudeLightgrayTex5 = false;
+                } else {
+                    $scope.AltitudeYellowTex2 = true;
+                    $scope.AltitudeYellowTex3 = true;
+                    $scope.AltitudeYellowTex4 = true;
+                    $scope.AltitudeYellowTex5 = true;
+                    $scope.AltitudeLightgrayTex2 = false;
+                    $scope.AltitudeLightgrayTex3 = false;
+                    $scope.AltitudeLightgrayTex4 = false;
+                    $scope.AltitudeLightgrayTex5 = false;
+                }
+            }
+        };
+        // 问题是否解决
+        $scope.IsSoluteYellowTex1 = true;
+        $scope.IsSoluteYellowTex2 = false;
+        $scope.IsSoluteGrayTex1 = false;
+        $scope.IsSoluteGrayTex2 = true;
+        $scope.ChangeIsSolute = function (val) {
+            $scope.isSolute = val;
+            if (val == 1) {
+                $scope.IsSoluteYellowTex1 = true;
+                $scope.IsSoluteYellowTex2 = false;
+                $scope.IsSoluteGrayTex1 = false;
+                $scope.IsSoluteGrayTex2 = true;
+            }
+            if (val == 2) {
+                $scope.IsSoluteYellowTex1 = false;
+                $scope.IsSoluteYellowTex2 = true;
+                $scope.IsSoluteGrayTex1 = true;
+                $scope.IsSoluteGrayTex2 = false;
+            }
+        };
+    });
+</script>

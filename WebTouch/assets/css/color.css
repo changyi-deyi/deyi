@@ -1,0 +1,398 @@
+
+/****************背景颜色值******************/
+.lightwhiteBkg{
+	background: rgba(255,255,255,0.5);
+}
+.whiteBkg {
+	background-color: #FFF!important;
+}
+.yellowBkg {
+	background-color: #efcd40!important;
+}
+.orangeBkg {
+	background-color: #fb7e28!important;
+}
+.redBkg{
+	background-color: #ff6565!important;
+}
+.blackBkg{
+	background-color: #313131!important;
+}
+.grayBkg{
+	background-color:#5c5c5c!important;
+}
+.blueBkg{
+	background-color:#0e8afd!important;
+}
+.greenBkg{
+	background-color:#8dbf43!important;
+}
+.lightblueBkg{
+	background-color:#49a8e2!important;
+}
+.L_lightblueBkg{
+	background-color:#a6d4fc!important;
+}
+.lightblackBkg{
+	background-color:rgba(49,49,49,0.5)!important;
+}
+.lightgrayBkg{
+	background-color:rgba(92,92,92,0.2)!important;
+}
+.L_lightgrayBkg{
+	background-color:rgba(92,92,92,0.2)!important;
+}
+.lightblackBkg{
+	background-color: rgba(0,0,0,0.8)!important;
+}
+
+.transparentBbg{
+	background: rgba(0,0,0,0.3);
+}
+.transparentWbg{
+	background: rgba(255,255,255,0.3);
+}
+
+
+/****************字体颜色值******************/
+
+.grayTex {
+	color: #898989!important;
+}
+.grayTex a:hover,.grayTex a:link,.grayTex a:visited{
+	color: #898989!important;
+}
+.lightgrayTex {
+	color: #cacaca!important;
+}
+.llightgrayTex{
+	color: #eee!important;
+}
+.redTex {
+	color: #ff6565!important;
+}
+.greenTex {
+	color: #8dbf43!important;
+}
+.blueTex{
+	color:#0e8afd!important;
+}
+.lightblueTex{
+	color:#49a8e2!important;
+}
+.blackTex {
+	color: #231816!important;	
+}
+
+.whiteTex {
+	color: #FFF!important;
+}
+.whiteTex a:link {
+	color: #FFF!important;
+}
+.whiteTex a:hover {
+	color: #FFF!important;
+}
+.whiteTex a:visited {
+	color: #FFF!important;
+}
+.yellowTex {
+	color: #ffc619!important;
+}
+/*.lightyellowTex{
+	color: #ffc619!important;
+}*/
+.orangeTex{
+	color: #fb7e28!important;
+}
+/*.darkorangeTex{
+	color: #fba229!important;
+}*/
+.goldTex{
+	color: #fbee94!important;
+}
+/****************边框颜色值******************/
+.border {
+	border: 1px solid #eee!important;
+}
+.borderT {
+	border-top: 1px solid #eee;
+}
+.borderB {
+	border-bottom: 1px solid #eeeeee;
+}
+.borderR {
+	border-right: 1px solid #eee;
+}
+.borderL {
+	border-left: 1px solid rgba(182,164,101,0.5);
+}
+
+.borderDashed {
+	border: 1px dashed #eee!important;
+}
+.borderDashedT {
+	border-top: 1px dashed #eee;
+}
+.borderDashedB {
+	border-bottom: 1px dashed #eee;
+}
+.borderDashedR {
+	border-right: 1px dashed #eee;
+}
+.borderDashedL {
+	border-left: 1px dashed rgba(182,164,101,0.5);
+}
+
+
+.borderB-orange {
+	border-bottom: 1px solid #FBA229;
+}
+.borderB-yellow {
+	border-bottom: 1px solid #FFC619;
+}
+.borderNone{
+	border: none!important;
+}
+
+.border1{
+	border-width: 1px;
+}
+.border2{
+	border-width: 2px;
+}
+.border3{
+	border-width: 3px;
+}
+.borderT1{
+	border-top-width: 1px;
+}
+.borderT2{
+	border-top-width: 2px;
+}
+.borderB1{
+	border-bottom-width: 1px;
+}
+.borderB2{
+	border-bottom-width: 2px;
+}
+
+.boderSolid{
+	border-style: solid;
+}
+.boderDotted{
+	border-style: dotted;
+}
+.yellowBorder{
+	border-color:#ffc619;
+}
+.orangeBorder{
+	border-color:#fba229;
+}
+.L_lightblueBorder{
+	border-color: #b7dcfe;
+}
+
+.whiteBordeB1{
+	border-bottom:1px solid #fff;
+}
+.whiteBordeB2{
+	border-bottom:2px solid #fff;
+}
+.whiteBorde2{
+	border:2px solid #fff;
+}
+
+.blueBorde1{
+	border:1px solid #2883e1;
+}
+.blueBorde2{
+	border:2px solid #2883e1;
+}
+
+.greenBorde1{
+	border:1px solid #8dbf43;
+}
+.greenBorde2{
+	border:2px solid #8dbf43;
+}
+
+.yellowBordeB1{
+	border-bottom:1px solid #ffc619;
+}
+.yellowBordeB2{
+	border-bottom:2px solid #ffc619;
+}
+.yellowBorde2{
+	border:2px solid #ffc619;
+}
+
+.grayBorder1{
+	border:1px solid #ddd;
+}
+
+.grayBorderT5{
+	border-top:5px solid #e7e7e7;
+}
+.grayBorderB5{
+	border-bottom:5px solid #e7e7e7;
+}
+
+
+.yellowBordeT1{
+	border-top:1px solid #ffc619;
+}
+
+.lightgrayBorderB2{
+	border-bottom:1px solid #e9e8e8;
+}
+
+.borderGray{
+	border:1px solid #ddd;
+}
+.borderlightGray{
+	border:1px solid #eee;
+}
+/*6个功能模块主颜色*/
+.type_1Bkg{
+	background: #3ea7d2;
+}
+.type_2Bkg{
+	background: #3ed1b8;
+}
+.type_3Bkg{
+	background: #ef518f;
+}
+.type_4Bkg{
+	background: #9985ee;
+}
+.type_5Bkg{
+	background: #f3bf32;
+}
+.type_6Bkg{
+	background: #41c76e;
+}
+.type_1Txt{
+	color: #3ea7d2;
+}
+.type_2Txt{
+	color: #3ed1b8;
+}
+.type_3Txt{
+	color: #ef518f;
+}
+.type_4Txt{
+	color: #9985ee;
+}
+.type_5Txt{
+	color: #f3bf32;
+}
+.type_6Txt{
+	color: #41c76e;
+}
+/*基因状态颜色*/
+.statePoint,.geneBkg{
+	display: inline-block;
+	-webkit-border-radius: 100%;
+	border-radius: 100%;
+	text-align: center;
+	color: #FFFFFF;
+}
+.statePoint{
+	display: inline-block;
+	width: 0.5em ;
+	height: 0.5em;
+}
+.geneBkg{
+	width: 2em ;
+	height: 2em;
+	line-height: 2em;
+	margin:0.2em 0.1em;
+}
+.geneTxt{
+	display: inline-block;
+	width: 100%;
+	height: 2em;
+	line-height: 2em;
+	margin: 0.2em;
+}
+.state_4{
+	background: #e95651;
+}
+.state_3{
+	background: #f29d24;
+}
+.state_2{
+	background: #5b79de;
+}
+.state_1{
+	background: #36c174;
+}
+.state_4Txt{
+	color: #e95651;
+}
+.state_3Txt{
+	color: #f29d24;
+}
+.state_2Txt{
+	color: #5b79de;
+}
+.state_1Txt{
+	color: #36c174;
+}
+/*基因报告标题背景*/
+.report1bg{
+	background: url(../pic/subpage_menutitle1.png) #FFFFFF center bottom no-repeat;
+	background-size: cover;
+}
+.report2bg{
+	background: url(../pic/subpage_menutitle2.png) #FFFFFF center bottom no-repeat;
+	background-size: cover;
+}
+.report3bg{
+	background: url(../pic/subpage_menutitle3.png) #FFFFFF center bottom no-repeat;
+	background-size: cover;
+}
+.report4bg{
+	background: url(../pic/subpage_menutitle4.png) #FFFFFF center bottom no-repeat;
+	background-size: cover;
+}
+.report5bg{
+	background: url(../pic/subpage_menutitle5.png) #FFFFFF center bottom no-repeat;
+	background-size: cover;
+}
+.report6bg{
+	background: url(../pic/subpage_menutitle6.png) #FFFFFF center bottom no-repeat;
+	background-size: cover;
+}
+
+/*基因报告项目详情风险提示种类*/
+/*.state_4TxtBkg,.state_3TxtBkg,.state_2TxtBkg,.state_1TxtBkg{
+	padding: 1.25em 0;
+	-webkit-border-radius: 0.4em;
+	border-radius: 0.4em;
+	text-align: center;
+	color: #FFFFFF;
+}*/
+.state_4TxtBkg{
+	background-image: -webkit-linear-gradient(0deg, #ea5853, #ef716a);
+}
+.state_3TxtBkg{
+	background-image: -webkit-linear-gradient(0deg, #f29f25, #f6bc2f);
+}
+.state_2TxtBkg{
+	background-image: -webkit-linear-gradient(0deg, #5d7cdf, #779fe9);
+}
+.state_1TxtBkg{
+	background-image: -webkit-linear-gradient(45deg, #38c377, #47d499);
+}
+
+
+
+/*基本渐变打底色*/
+.basic_G{
+	background-image: -webkit-linear-gradient(0deg, #d3fff8, #3ed2b9,#d3fff8);
+}
+.basic_G2{
+	background-image: -webkit-linear-gradient(0deg, #efefef, #ddd,#efefef);
+}

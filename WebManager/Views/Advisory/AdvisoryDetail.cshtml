@@ -1,0 +1,84 @@
+﻿@{
+    WebManager.Model.AdvisoryDetail_Model model = new WebManager.Model.AdvisoryDetail_Model();
+    if (Model != null)
+    {
+        model = Model;
+    }
+    string Domain = System.Configuration.ConfigurationManager.AppSettings["Domian"];
+}
+
+<script src="/Scripts/Common.js"></script>
+<script src="/Scripts/Advisory.js"></script>
+<!-- 主要容器 -->
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- 侧边导航 -->
+        @Html.Partial("Sidebar", 5)
+        <!-- /侧边导航 -->
+        <!--右侧主体内容-->
+        <div class="page-content">
+            <div class="page-body">
+                <div class="list-content">
+                    <div class="form-horizontal">
+                        @if (model.Data != null && model.Data.Count > 0)
+                        {
+                            foreach (Model.Manage_Model.Advisory_Model item in model.Data)
+                            {
+                                if (item.OpType == 1)
+                                {
+                                    <div class="form-group text-align-left">
+                                        <label class="col-lg-7">@(item.CustomerName)<i class="margin-left-10">@(item.CreatetTime.ToString("yyyy-MM-dd HH:mm"))</i></label>
+                                        <div class="col-lg-12 padding-10">
+                                            <div class="bg-palegreen white padding-10" style="font-size: 16px;width: 100%;">
+                                                @(item.Content)
+                                            </div>
+                                            <div class="row padding-10">
+                                                @if (item.ImgList != null && item.ImgList.Count > 0)
+                                                {
+                                                    foreach (Model.Manage_Model.AdvisoryImg_Model img in item.ImgList)
+                                                    {
+                                                        <a class="img-thumbnail col-sm-3 margin-10">
+                                                            <img class="img-responsive" src="@(Domain + img.FileName)" />
+                                                        </a>
+
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group text-align-right clearfix">
+                                        <label class="col-lg-7 pull-right">德医回答<i class="margin-left-10">@(item.CreatetTime.ToString("yyyy-MM-dd HH:mm"))</i></label>
+                                        <div class="col-lg-7 padding-10 pull-right">
+                                            <div class="bg-blue white padding-10" style="font-size: 16px;">
+                                                @(item.Content)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div><div class="form-group">
+                        <label class="col-lg-7 pull-right text-align-right">德医回答</label>
+                        <div class="col-lg-12 pull-right">
+                            <textarea class="form-control gh-w-100p" rows="5" placeholder="请输入回答" id="txtContent"></textarea>
+                        </div>
+                    </div><div class="form-group">
+                        <div class="col-lg-7 text-right">
+                            <a class="btn-info btn-lg" onclick=" window.location.href=document.referrer;">返 回</a>
+                            <a class="btn-blue btn-lg" onclick="AnswerAdvisory(@(model.ID))">提 交</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--datacontent end-->
+</div><!--右侧主体内容 结束-->
+            <input type="hidden" id="txtHidden" />
+<script>
+    $(function () {
+    });
+</script>

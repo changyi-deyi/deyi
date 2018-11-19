@@ -1,0 +1,326 @@
+﻿
+@{
+}
+
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<script src="/Scripts/jweixin-1.0.0.js"></script>
+<div ng-app="OpenVIPApp" ng-controller="OpenVIPCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/OpenVIP/OpenVIP">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>开通会员</span>
+    </div><div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <p class="borderBox P0_8x">
+                <span class=" textL">您即将开通德医会员</span>
+            </p>
+            <!--升级补款-->
+            <ul class="fl borderBox width100 P1_1x MB0_4x whiteBkg">
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">姓名(必填)</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" placeholder="输入姓名" ng-model="name" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">身份证号(必填)</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" placeholder="输入身份证号" ng-model="idNumber" />
+                    </span>
+                </li>
+            </ul>
+            <!--升级补款-->
+            <ul class="fl borderBox width100 MB0_4x">
+                <li class="whiteBkg">
+                    <div class="P1_1x">
+                        <p class="clearfix MB1x textL">
+                            <span class="">会员等级：</span>
+                            <span class="ML0_8x">{{LevelName}}</span>
+                        </p>
+                        <p class="clearfix textL">
+                            <span class="">会员金额：</span>
+                            <span class="ML0_8x fontBlod redTex MR0_4x">{{UnitPrice}}</span><span>元</span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <!--优惠券-->
+            <ul class="fl borderBox width100 MB0_4x">
+                <li class="whiteBkg">
+                    <div class="P1_1x">
+                        <p class="clearfix textL MB1x">
+                            <span class="">使用优惠券：</span>
+                            <!--<span class="ML0_8x fontBlod">2</span>-->
+                            <span class="ML0_8x fontBlod borderB">
+                                <!--<input type="text" class="borderBox P0_4x border1 borderGray lineHeight1_5x" placeholder="请选择会员人数">-->
+                                <select class="borderBox P0" ng-change="CalcPay()" ng-model="UsingCoupon">
+                                    <option value="{{x.CouponCode}}" ng-repeat="x in coupons">{{x.Name}}</option>
+                                </select>
+                            </span>
+                            <!--<span class="font09x">(优惠金额：-100)</span>-->
+                        </p>
+                        <p class="clearfix textL">
+                            <span class="">优惠金额：</span>
+                            <span class="ML0_8x fontBlod redTex MR0_4x">{{MinusPrice | number:2}}</span><span>元</span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <!--支付情况-->
+            <ul class="fl borderBox width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="clearfix textL">
+                            <span class="">实付金额：</span>
+                            <span class="ML0_8x fontBlod redTex MR0_4x">{{PayPrice}}</span><span>元</span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="textC PT1_1x PB1_1x fl borderBox width100">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="SubmitOrder()">去支付</a>
+                @*<a class="btnSmall dy_btn lightgrayBkg whiteTex" href="Home.html">去支付</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('OpenVIPApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    //将字符串分割成数组
+    app.filter("toArray", function () {
+        return function (data, separator) {
+            if (data) {
+                if (!separator) {
+                    separator = ",";//默认逗号分割
+                }
+                return data.split(separator);
+            } else {
+                return [];//得到的结果类型始终为数组类型
+            }
+        }
+    });
+    app.controller('OpenVIPCtrl', function ($scope, $http, $location, $filter) {
+        $scope.MinusPrice = 0;
+        $scope.LevelID = $location.search().l;
+        $scope.UsingCoupon = "";
+        $http({
+            method: 'post',
+            url: '/OpenVIP/OpenMemberInfo',
+            params: {
+                LevelID: $scope.LevelID
+            }
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.LevelName = req.Data.MemberLevel.Name;
+                $scope.UnitPrice = req.Data.MemberLevel.OriginPrice;
+                $scope.PayPrice = $scope.UnitPrice - $scope.MinusPrice;
+                $scope.Payment = $scope.UnitPrice; //补款差额
+                if (req.Data.CouponInfo != null) {
+                    $scope.coupons = req.Data.CouponInfo;
+                    for (var i in $scope.coupons) {
+                        if ($scope.coupons[i].Type == 2 || $scope.coupons[i].Type == 1) {
+                            var rule = $filter('toArray')($scope.coupons[i].Rule);
+                            if ($scope.Payment != 0) {
+                                if (rule[0] > $scope.Payment) {
+                                    $scope.coupons.splice(i, 1);
+                                }
+                            } else {
+                                if (rule[0] > $scope.UnitPrice) {
+                                    $scope.coupons.splice(i, 1);
+                                }
+                            }
+                        }
+                    }
+                    var coupon = {
+                        Name: "请选择优惠券",
+                        CouponCode: "",
+                    }
+                    $scope.coupons.unshift(coupon);
+                }
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+        // 当前会员等级信息
+        $http({
+            method: 'post',
+            url: '/OpenVIP/GetLevelDetail'
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.Payment = $scope.Payment - req.Data.OriginPrice;
+            } else {
+                //swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+        //当前身份证号信息
+
+        $http({
+            method: 'post',
+            url: '/MyMark/getMark'
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.name = req.Data.Name; // 姓名
+                $scope.idNumber = req.Data.IDNumber; // 身份证号
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+
+        $scope.CalcPay = function () {
+            for (var i in $scope.coupons) {
+                if ($scope.coupons[i].CouponCode == $scope.UsingCoupon) {
+                    var rule = $filter('toArray')($scope.coupons[i].Rule);
+                    switch ($scope.coupons[i].Type) {
+                        case 1:
+                            //1：现金券
+                            $scope.MinusPrice = rule[1];
+                            break;
+                        case 2:
+                            //2：满减券
+                            $scope.MinusPrice = rule[1];
+                            break;
+                        case 3:
+                            //3：打折券
+                            // 补款差额
+                            if ($scope.Payment != 0) {
+                                $scope.MinusPrice = $filter('number')($scope.Payment * (1 - rule[0]),2);
+                            } else {
+                                $scope.MinusPrice = $filter('number')($scope.UnitPrice * (1 - rule[0], 2));
+                            }
+                            break;
+                        case 4:
+                            //4：兑换券
+                            $scope.MinusPrice = $scope.UnitPrice;
+                            break;
+                        default:
+                            $scope.MinusPrice = 0;
+                            break;
+                    };
+                    //实付金额
+                    $scope.PayPrice = 0;
+                    if ($scope.Payment == 0) {
+                        if ($scope.UnitPrice - $scope.MinusPrice > 0) {
+                            $scope.PayPrice = $filter('number')($scope.UnitPrice - $scope.MinusPrice, 2);
+                        }
+                    } else {
+                        if ($scope.Payment - $scope.MinusPrice > 0) {
+                            $scope.PayPrice = $filter('number')($scope.Payment - $scope.MinusPrice, 2);
+                        }
+                    };
+                };
+            };
+        };
+        $scope.SubmitOrder = function () {
+            if (angular.isUndefined($scope.name) || $scope.name == "") {
+                swal("请输入姓名");
+                return;
+            }
+            if (angular.isUndefined($scope.idNumber) || $scope.idNumber == "") {
+                swal("请输入身份证号");
+                return;
+            }
+
+            $http({
+                method: 'post',
+                url: '/OpenVip/addMemberOrder',
+                params: {
+                    Name: $scope.name,
+                    idNumber: $scope.idNumber,
+                    CouponCode: $scope.UsingCoupon,
+                    MemberLevelID: $scope.LevelID,
+                    OriginPrice: $scope.UnitPrice,
+                    OrderAmount: $scope.PayPrice,
+                    DiscountAmount: $scope.MinusPrice
+                }
+            }).success(function (req) {
+                if (req == "") {
+                    swal("网络繁忙,请稍后再试！");
+                } else if (req.Code == "1" && req.Data != null) {
+                    $scope.order = req.Data.order;
+                    $scope.jsParam = req.Data.jsParam
+                    if ($scope.jsParam != "") {
+                        $scope.AddPay();
+                    }
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+
+        $scope.AddPay = function () {
+            if (typeof WeixinJSBridge == "undefined") {
+                swal("不是微信不能支付");
+
+            }
+            else {
+                $scope.onBridgeReady();
+            }
+        };
+
+        $scope.onBridgeReady = function () {
+            var jsModel = $scope.$eval($scope.jsParam);
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId": jsModel.appId,     //公众号名称，由商户传入
+                    "timeStamp": jsModel.timeStamp,         //时间戳，自1970年以来的秒数
+                    "nonceStr": jsModel.nonceStr, //随机串
+                    "package": jsModel.package,
+                    "signType": 'MD5',         //微信签名方式:
+                    "paySign": jsModel.paySign    //微信签名
+                },
+
+                function (res) {
+                    if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                          $scope.cancelPay();
+                    } else {
+                        swal({
+                            text: "支付成功",
+                            confirmButtonText: "确定",
+                        }).then(() => {
+                            window.location.href = '/MyHome/MyVipHome';
+                        });
+                    }
+                }
+            );
+        };
+    });
+
+
+    $scope.cancelPay = function () {
+        $http({
+            method: 'post',
+            url: '/OpenVip/CancelPayMember',
+            params: {
+                OrderCode: $scope.order.OrderCode,
+                NetTradeCode: $scope.order.NetTradeCode
+            }
+        }).success(function (req) {
+            if (req == "") {
+            } else if (req.Code = "1" && req.Data) {
+            } else {
+            }
+        }).error(function () {
+            swal("网络繁忙,请稍后再试！");
+        });
+    };
+
+</script>

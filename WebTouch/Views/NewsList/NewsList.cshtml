@@ -1,0 +1,125 @@
+﻿
+@{
+}
+<style>
+    /* 显示两行文本 */
+    .cus-overflow-line-2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="NewsListApp" ng-controller="NewsListCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/Home/Home">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>我的信息</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <!--会员信息-->
+            <ul class="fl width100 MT0_8x">
+                <messagelist ng-repeat="x in messagelist">
+                    <li class="whiteBkg MB0_4x">
+                        <div class="P1_1x">
+                            <p class="clearfix MB0_4x">
+                                <span ng-switch="x.type">
+                                    <span class="fl textL" ng-switch-when="1">系统消息</span>
+                                    <span class="fl textL" ng-switch-when="2">订单通知</span>
+                                    <span class="fl textL" ng-switch-when="3">产品信息</span>
+                                </span>
+                                <a class="fr textR grayTex font09x">{{x.sendTime}}<i class="iconfont ML0_8x" ng-click="DelMsg(x.id)">&#xe661;</i></a>
+                            </p>
+                            <p class="font09x cus-overflow-line-2">{{x.message}}</p>
+                        </div>
+                    </li>
+                </messagelist>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('NewsListApp', []);
+    app.controller('NewsListCtrl', function ($scope, $http) {
+        var messagelist = $scope.messagelist = [];
+        // 取得客户消息表
+        $http({
+            method: 'post',
+            url: '/NewsList/getCustomerMessage',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                messagelist = $scope.messagelist = [];
+                $scope.addMessage = function () {
+                    for (var i in req.Data) {
+                        messagelist.push({
+                            id: req.Data[i].ID, // 消息ID
+                            url: req.Data[i].URL, // 链接
+                            type: req.Data[i].Type, // 消息类型
+                            sendTime: req.Data[i].SendTime, // 发送时间
+                            message: req.Data[i].Message, // 消息文本
+                        });
+                    }
+                };
+                $scope.addMessage();
+            } else if (req.Code == "2") {
+                messagelist = $scope.messagelist = [];
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+        // 删除消息
+        $scope.DelMsg = function (id) {
+            $http({
+                method: 'post',
+                url: '/NewsList/delMsg',
+                params: {
+                    MsgID: id
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    // 取得客户消息表
+                    $http({
+                        method: 'post',
+                        url: '/NewsList/getCustomerMessage',
+                    }).success(function (req) {
+                        if (req.Code == "1") {
+                            messagelist = $scope.messagelist = [];
+                            $scope.addMessage = function () {
+                                for (var i in req.Data) {
+                                    messagelist.push({
+                                        id: req.Data[i].ID, // 消息ID
+                                        url: req.Data[i].URL, // 链接
+                                        type: req.Data[i].Type, // 消息类型
+                                        sendTime: req.Data[i].SendTime, // 发送时间
+                                        message: req.Data[i].Message, // 消息文本
+                                    });
+                                }
+                            };
+                            $scope.addMessage();
+                        } else if (req.Code == "2") {
+                            messagelist = $scope.messagelist = [];
+                        } else {
+                            swal(req.Message);
+                        }
+                    }).error(function () {
+                        swal(req.Code);
+                        swal("网络繁忙,请稍后再试！");
+                    });
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+    });
+</script>

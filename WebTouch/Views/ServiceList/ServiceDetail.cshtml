@@ -1,0 +1,109 @@
+﻿
+@{
+}
+<link href="/assets/css/Bootstrap.css" rel="stylesheet" />
+<script src="/assets/js/angular-animate.min.js"></script>
+<script src="/assets/js/ui-bootstrap.min.js"></script>
+<script src="/assets/js/ui-bootstrap-tpls.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<script src="https://cdn.staticfile.org/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
+<div ng-app="ServiceApp" ng-controller="ServiceCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/ServiceList/ServiceList">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>{{Name}}</span>
+    </div>
+    <div class="fixBottom positionR blueBkg whiteTex PTB0_8x borderT flex-box">
+        <a class="width50 textC" href="/DoctorList/DoctorList?s={{serviceCode}}">
+            <span class="font085x">去预约</span>
+        </a>
+        <a class="width50 textC" href="/Consultation/Consultation?g=0">
+            <span class="font085x">免费咨询</span>
+        </a>
+    </div>
+    <div class="MT3_2x MB7_6x">
+        <div>
+            <!--轮显图片开始-->
+            <carousel interval="myInterval" no-wrap="noWrapSlides">
+                <slide ng-repeat="slide in slides" active="slide.active">
+                    <a href="">
+                        <img ng-src="{{slide.imgUrl}}" />
+                    </a>
+                </slide>
+            </carousel>
+            <!--轮显图片结束-->
+        </div>
+        <div class="textL clearfix">
+            <div class="fl borderBox width100 whiteBkg textC MT0_8x">
+                <div class="P1_1x textL">
+                    <p class="MB1_1x fontBlod">{{Name}}</p>
+                    <div ng-bind-html="Introduct | ntobr | trustHtml"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('ServiceApp', ['ui.bootstrap', 'ngAnimate', 'ngSanitize']);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    //html标签转义
+    app.filter('trustHtml', function ($sce) {
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        }
+    });
+    app.filter('ntobr', function () {
+        var filter = function (input) {
+            return input.replace(/\n/g, "<\/br>").replace(/\s+([^<>]+)(?=<)/g, function (match) { return match.replace(/\s+/g, '&nbsp;'); });
+        };
+        return filter;
+    });
+    app.controller('ServiceCtrl', function ($scope, $http, $location) {
+        $scope.serviceCode = $location.search().s; // 服务编号
+        if ($scope.doctorCode != '0') {
+            $scope.hrefLink = $scope.hrefLink + '?c=' + $scope.doctorCode;
+        };
+        // 服务详情
+        $scope.GetServiceDetail = function () {
+            $http({
+                method: 'post',
+                url: '/ServiceList/getServiceDetail',
+                params: {
+                    ServiceCode: $scope.serviceCode
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.Name = req.Data.Name; // 服务名称
+                    $scope.Introduct = req.Data.Introduct; // 服务介绍
+                    $scope.myInterval = 1000;
+                    $scope.noWrapSlides = false;
+                    var slides = $scope.slides = []; //轮显图片
+                    $scope.addImaList = function () {
+                        var newWidth = 600 + slides.length + 1;
+                        for (var i in req.Data.ImaList) {
+                            slides.push({
+                                imgUrl: req.Data.ImaList[i].Path // 图片路径 + 文件名
+                            });
+                        }
+                    };
+                    $scope.addImaList();
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetServiceDetail();
+    });
+</script>

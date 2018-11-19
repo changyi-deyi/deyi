@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D3D6FDA-B910-4872-B392-46B73DDDC414}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BLL</RootNamespace>
+    <AssemblyName>BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>"%24/DY/BLL", QLJEAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath />
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\lib\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdvisoryM_BLL.cs" />
+    <Compile Include="BannerM_BLL.cs" />
+    <Compile Include="ChannelM_BLL.cs" />
+    <Compile Include="CouponM_BLL.cs" />
+    <Compile Include="DepartmentM_BLL.cs" />
+    <Compile Include="HospitalM_BLL.cs" />
+    <Compile Include="MemberActM_BLL.cs" />
+    <Compile Include="OpeJoinAct_BLL.cs" />
+    <Compile Include="ImaCustomerProfile_BLL.cs" />
+    <Compile Include="ImaAdvisory_BLL.cs" />
+    <Compile Include="InfAddress_BLL.cs" />
+    <Compile Include="InfMemberAct_BLL.cs" />
+    <Compile Include="InfFamily_BLL.cs" />
+    <Compile Include="InfFeedback_BLL.cs" />
+    <Compile Include="OpeAdvisory_BLL.cs" />
+    <Compile Include="InfDoctor_BLL.cs" />
+    <Compile Include="InfCustomerProfile_BLL.cs" />
+    <Compile Include="InfMember_BLL.cs" />
+    <Compile Include="Common_BLL.cs" />
+    <Compile Include="BasUser_BLL.cs" />
+    <Compile Include="InfCoupon_BLL.cs" />
+    <Compile Include="InfMemberServiceDiscount_BLL.cs" />
+    <Compile Include="ImaService_BLL.cs" />
+    <Compile Include="LevelM_BLL.cs" />
+    <Compile Include="OpeCouponCode_BLL.cs" />
+    <Compile Include="OpeCustomerCoupon_BLL.cs" />
+    <Compile Include="OpeFollowDoctor_BLL.cs" />
+    <Compile Include="OpeComment_BLL.cs" />
+    <Compile Include="OpeServiceOrder_BLL.cs" />
+    <Compile Include="OrderM_BLL.cs" />
+    <Compile Include="ServiceM_BLL.cs" />
+    <Compile Include="SetCardNumPas_BLL.cs" />
+    <Compile Include="SetDistrict_BLL.cs" />
+    <Compile Include="SetDepartment_BLL.cs" />
+    <Compile Include="SetMemberLevel_BLL.cs" />
+    <Compile Include="InfService_BLL.cs" />
+    <Compile Include="InfCustomer_BLL.cs" />
+    <Compile Include="OpeCustomerMessage_BLL.cs" />
+    <Compile Include="InfBanner_BLL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingM_BLL.cs" />
+    <Compile Include="TagM_BLL.cs" />
+    <Compile Include="TitleM_BLL.cs" />
+    <Compile Include="UserM_BLL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{e8a4031b-1613-4604-b028-2138d8dd92ae}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{4f65a3c8-93cb-4f94-849c-b6ceb24f73cf}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{4dc6376f-ff15-48e3-8e21-45574ef37821}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

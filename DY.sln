@@ -1,0 +1,161 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebManager", "WebManager\WebManager.csproj", "{B2F0CE26-6E6E-458D-A597-56F65694FC54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{ABB14523-48D8-481B-912C-0F722DBEAF0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTouch", "WebTouch\WebTouch.csproj", "{7C7339AD-95AE-4F1D-AA42-8B56B6C4EFCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{4DC6376F-FF15-48E3-8E21-45574EF37821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{2D3D6FDA-B910-4872-B392-46B73DDDC414}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{4F65A3C8-93CB-4F94-849C-B6CEB24F73CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{E8A4031B-1613-4604-B028-2138D8DD92AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnsignIn", "UnsignIn\UnsignIn.csproj", "{2EDD5AB3-EB9E-49CB-AB94-8FD2F4B3A507}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A4031B-1613-4604-B028-2138D8DD92AE} = {E8A4031B-1613-4604-B028-2138D8DD92AE}
+		{4DC6376F-FF15-48E3-8E21-45574EF37821} = {4DC6376F-FF15-48E3-8E21-45574EF37821}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemberCheck", "MemberCheck\MemberCheck.csproj", "{DB507801-3E47-4913-933F-6778744EE417}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A4031B-1613-4604-B028-2138D8DD92AE} = {E8A4031B-1613-4604-B028-2138D8DD92AE}
+		{4DC6376F-FF15-48E3-8E21-45574EF37821} = {4DC6376F-FF15-48E3-8E21-45574EF37821}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoComment", "AutoComment\AutoComment.csproj", "{3E632DF1-4AD6-42BB-91E3-5B133A8FFBAE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A4031B-1613-4604-B028-2138D8DD92AE} = {E8A4031B-1613-4604-B028-2138D8DD92AE}
+		{4DC6376F-FF15-48E3-8E21-45574EF37821} = {4DC6376F-FF15-48E3-8E21-45574EF37821}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiveMember", "GiveMember\GiveMember.csproj", "{CD4D1BFD-17BC-4FFA-BF2E-D99B8A1E10D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A4031B-1613-4604-B028-2138D8DD92AE} = {E8A4031B-1613-4604-B028-2138D8DD92AE}
+		{4DC6376F-FF15-48E3-8E21-45574EF37821} = {4DC6376F-FF15-48E3-8E21-45574EF37821}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceInProgress", "ServiceInProgress\ServiceInProgress.csproj", "{419CF837-38E9-4BFB-ADE8-017F450B12AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A4031B-1613-4604-B028-2138D8DD92AE} = {E8A4031B-1613-4604-B028-2138D8DD92AE}
+		{4DC6376F-FF15-48E3-8E21-45574EF37821} = {4DC6376F-FF15-48E3-8E21-45574EF37821}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceComplete", "ServiceComplete\ServiceComplete.csproj", "{A7DCE729-329C-4266-BCC7-668F6877EE75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E8A4031B-1613-4604-B028-2138D8DD92AE} = {E8A4031B-1613-4604-B028-2138D8DD92AE}
+		{4DC6376F-FF15-48E3-8E21-45574EF37821} = {4DC6376F-FF15-48E3-8E21-45574EF37821}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2F0CE26-6E6E-458D-A597-56F65694FC54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F0CE26-6E6E-458D-A597-56F65694FC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F0CE26-6E6E-458D-A597-56F65694FC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F0CE26-6E6E-458D-A597-56F65694FC54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB14523-48D8-481B-912C-0F722DBEAF0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB14523-48D8-481B-912C-0F722DBEAF0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB14523-48D8-481B-912C-0F722DBEAF0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB14523-48D8-481B-912C-0F722DBEAF0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C7339AD-95AE-4F1D-AA42-8B56B6C4EFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C7339AD-95AE-4F1D-AA42-8B56B6C4EFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C7339AD-95AE-4F1D-AA42-8B56B6C4EFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C7339AD-95AE-4F1D-AA42-8B56B6C4EFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC6376F-FF15-48E3-8E21-45574EF37821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC6376F-FF15-48E3-8E21-45574EF37821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC6376F-FF15-48E3-8E21-45574EF37821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC6376F-FF15-48E3-8E21-45574EF37821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3D6FDA-B910-4872-B392-46B73DDDC414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3D6FDA-B910-4872-B392-46B73DDDC414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3D6FDA-B910-4872-B392-46B73DDDC414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3D6FDA-B910-4872-B392-46B73DDDC414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F65A3C8-93CB-4F94-849C-B6CEB24F73CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F65A3C8-93CB-4F94-849C-B6CEB24F73CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F65A3C8-93CB-4F94-849C-B6CEB24F73CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F65A3C8-93CB-4F94-849C-B6CEB24F73CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A4031B-1613-4604-B028-2138D8DD92AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A4031B-1613-4604-B028-2138D8DD92AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A4031B-1613-4604-B028-2138D8DD92AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A4031B-1613-4604-B028-2138D8DD92AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EDD5AB3-EB9E-49CB-AB94-8FD2F4B3A507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EDD5AB3-EB9E-49CB-AB94-8FD2F4B3A507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EDD5AB3-EB9E-49CB-AB94-8FD2F4B3A507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EDD5AB3-EB9E-49CB-AB94-8FD2F4B3A507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB507801-3E47-4913-933F-6778744EE417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB507801-3E47-4913-933F-6778744EE417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB507801-3E47-4913-933F-6778744EE417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB507801-3E47-4913-933F-6778744EE417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E632DF1-4AD6-42BB-91E3-5B133A8FFBAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E632DF1-4AD6-42BB-91E3-5B133A8FFBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E632DF1-4AD6-42BB-91E3-5B133A8FFBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E632DF1-4AD6-42BB-91E3-5B133A8FFBAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD4D1BFD-17BC-4FFA-BF2E-D99B8A1E10D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD4D1BFD-17BC-4FFA-BF2E-D99B8A1E10D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD4D1BFD-17BC-4FFA-BF2E-D99B8A1E10D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD4D1BFD-17BC-4FFA-BF2E-D99B8A1E10D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419CF837-38E9-4BFB-ADE8-017F450B12AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419CF837-38E9-4BFB-ADE8-017F450B12AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419CF837-38E9-4BFB-ADE8-017F450B12AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419CF837-38E9-4BFB-ADE8-017F450B12AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7DCE729-329C-4266-BCC7-668F6877EE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7DCE729-329C-4266-BCC7-668F6877EE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7DCE729-329C-4266-BCC7-668F6877EE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DCE729-329C-4266-BCC7-668F6877EE75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 14
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = WebManager\\WebManager.csproj
+		SccProjectName1 = \u0022$/DY/WebManager\u0022,\u0020GGJEAAAA
+		SccLocalPath1 = WebManager
+		SccProjectUniqueName2 = WebApi\\WebApi.csproj
+		SccProjectName2 = \u0022$/DY/WebApi\u0022,\u0020GDJEAAAA
+		SccLocalPath2 = WebApi
+		SccProjectUniqueName3 = WebTouch\\WebTouch.csproj
+		SccProjectName3 = \u0022$/DY/WebTouch\u0022,\u0020IIJEAAAA
+		SccLocalPath3 = WebTouch
+		SccProjectUniqueName4 = Model\\Model.csproj
+		SccProjectName4 = \u0022$/DY/Model\u0022,\u0020CQJEAAAA
+		SccLocalPath4 = Model
+		SccProjectUniqueName5 = BLL\\BLL.csproj
+		SccProjectName5 = \u0022$/DY/BLL\u0022,\u0020QLJEAAAA
+		SccLocalPath5 = BLL
+		SccProjectUniqueName6 = DAL\\DAL.csproj
+		SccProjectName6 = \u0022$/DY/DAL\u0022,\u0020HPJEAAAA
+		SccLocalPath6 = DAL
+		SccProjectUniqueName7 = Common\\Common.csproj
+		SccProjectName7 = \u0022$/DY/Common\u0022,\u0020LNJEAAAA
+		SccLocalPath7 = Common
+		SccProjectUniqueName8 = UnsignIn\\UnsignIn.csproj
+		SccLocalPath8 = .
+		SccProjectFilePathRelativizedFromConnection8 = UnsignIn\\
+		SccProjectUniqueName9 = MemberCheck\\MemberCheck.csproj
+		SccLocalPath9 = .
+		SccProjectFilePathRelativizedFromConnection9 = MemberCheck\\
+		SccProjectUniqueName10 = AutoComment\\AutoComment.csproj
+		SccLocalPath10 = .
+		SccProjectFilePathRelativizedFromConnection10 = AutoComment\\
+		SccProjectUniqueName11 = GiveMember\\GiveMember.csproj
+		SccLocalPath11 = .
+		SccProjectFilePathRelativizedFromConnection11 = GiveMember\\
+		SccProjectUniqueName12 = ServiceInProgress\\ServiceInProgress.csproj
+		SccLocalPath12 = .
+		SccProjectFilePathRelativizedFromConnection12 = ServiceInProgress\\
+		SccProjectUniqueName13 = ServiceComplete\\ServiceComplete.csproj
+		SccLocalPath13 = .
+		SccProjectFilePathRelativizedFromConnection13 = ServiceComplete\\
+	EndGlobalSection
+EndGlobal

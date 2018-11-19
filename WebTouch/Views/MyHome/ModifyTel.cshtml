@@ -1,0 +1,121 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="ModifyTelApp" ng-controller="ModifyTelCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/Setting">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>设置</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">手机号码</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox width100 P0_4x borderNone lineHeight1_5x" placeholder="请输入手机号码" ng-model="mobile">
+                            </span>
+                        </p>
+                        <p class="textL flex-box">
+                            <span class="inlineB width5x">验证码</span>
+                            <span class="inlineB width80 ML0_8x borderB flex-box">
+                                <input class="borderBox P0_4x borderNone lineHeight1_5x" type="text" placeholder="输入验证码" ng-model="Auth" />
+                                <button class="fr width30 blueTex textC" ng-click="getAuthCode()" ng-bind="description" ng-disabled="canClick" style="border: none;"></button>
+                            </span>
+                            
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x PB1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="ChangeMobile()">提 交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('ModifyTelApp', []);
+    app.controller('ModifyTelCtrl', function ($scope, $http, $interval) {
+        $scope.canClick = false;
+        $scope.description = "获取验证码";
+        $scope.Agent = "";
+        var second = 59;
+        var timerHandler;
+        var userAgentInfo = navigator.userAgent;
+
+        $scope.getAuthCode = function () {
+            if (angular.isUndefined($scope.mobile) || $scope.mobile == "") {
+                swal("请输入手机");
+                return;
+            }
+
+            $scope.canClick = false;
+
+            $http({
+                method: 'post',
+                url: '/Login/getAuthCode',
+                params: {
+                    mobile: $scope.mobile
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.Agent = req.Data;
+                    timerHandler = $interval(function () {
+                        if (second <= 0) {
+                            $interval.cancel(timerHandler);
+                            second = 59;
+                            $scope.description = "获取验证码";
+                            $scope.canClick = false;
+                        } else {
+                            $scope.description = second + "s后重发";
+                            second--;
+                            $scope.canClick = true;
+                        }
+                    }, 1000);
+                } else {
+                    swal(req.Message);
+                    $scope.canClick = true;
+                }
+            }).error(function () {
+                swal("网络繁忙,请稍后再试！");
+                $scope.canClick = true;
+            });
+        }
+
+        $scope.ChangeMobile = function () {
+            if (angular.isUndefined($scope.mobile) || $scope.mobile == "") {
+                swal("请输入手机");
+                return;
+            }
+            if (angular.isUndefined($scope.Auth) || $scope.Auth == "") {
+                swal("请输入验证码");
+                return;
+            }
+            $http({
+                method: 'post',
+                url: '/MyHome/changeMobile',
+                params: {
+                    mobile: $scope.mobile,
+                    userAgent: userAgentInfo,
+                    Auth: $scope.Auth
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    window.location.href = '/Login/Login';
+                    swal(req.Message);
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+;
+    });
+</script>

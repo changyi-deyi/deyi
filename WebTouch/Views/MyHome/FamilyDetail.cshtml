@@ -1,0 +1,111 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="FamilyDetailApp" ng-controller="FamilyDetailCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyFamily">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>成员详情</span>
+        <typeid ng-if="Type != 1">
+            <a class="inlineB headerRightIcon width3_2x height3_2x lineHeight3_2x lineHeight3x whiteTex" ng-click="DeleteFamily()">
+                <span class="iconfont font1x">&#xe661;</span>
+            </a>
+        </typeid>
+
+    </div>
+    <div class="MT3x MB4_8x">
+        <div class="textL clearfix">
+            <!--升级补款-->
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">姓名(必填)</span>@*<em class="redTex">*</em>*@
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x" placeholder="请输入姓名" ng-model="Name">
+                            </span>
+                        </p>
+                        <p class="textL flex-box">
+                            <span class="inlineB width5x">关系</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x" placeholder="请输入关系" ng-model="Relationship">
+                            </span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x PB1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="ChangeFamily()">提 交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('FamilyDetailApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    app.controller('FamilyDetailCtrl', function ($scope, $http, $location) {
+        $scope.Type = parseInt($location.search().a); //1：新增 2：编辑
+        if ($scope.Type == 1) {
+            $scope.DataID = 0;
+            $scope.Name = "";
+            $scope.Relationship = "";
+        } else {
+            $scope.Name = $location.search().a1;
+            $scope.Relationship = $location.search().a2;
+            $scope.DataID = $location.search().a3;
+        }
+        $scope.ChangeFamily = function () {
+            if ($scope.Name == "") {
+                swal("请输入姓名");
+            } else {
+                $http({
+                    method: 'post',
+                    url: '/MyHome/changeFamily',
+                    params: {
+                        ID: $scope.DataID,
+                        Name: $scope.Name,
+                        Relationship: $scope.Relationship,
+                        ChangeFlg: $scope.Type
+                    }
+                }).success(function (req) {
+                    if (req.Code == "1") {
+                        swal(req.Message);
+                    } else {
+                        swal(req.Message);
+                    }
+                }).error(function () {
+                    swal(req.Code);
+                    swal("网络繁忙,请稍后再试！");
+                });
+            };
+        };
+        $scope.DeleteFamily = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/deleteFamily',
+                params: {
+                    ID: $scope.DataID
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    swal(req.Message);
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+    });
+</script>

@@ -1,0 +1,287 @@
+﻿@{
+    WebManager.Model.MemberOrderDetail_Model model = new WebManager.Model.MemberOrderDetail_Model();
+    Model.Manage_Model.MemberOrder_Model MemberOrder = new Model.Manage_Model.MemberOrder_Model();
+    if (Model != null)
+    {
+        model = Model;
+        if (model.Data != null)
+        {
+            MemberOrder = model.Data;
+        }
+    }
+}
+
+
+<script src="/Scripts/Order.js"></script>
+<!--页面主体-->
+<div class="page-container">
+    <!--左侧菜单-->
+    @Html.Partial("Sidebar", 17)
+    <!--左侧菜单 结束-->
+    <!--右侧主体内容-->
+    <div class="page-content">
+        <div class="page-breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/Doctor/DoctorList">医生</a>
+                </li>
+                <li class="active">详情</li>
+            </ul>
+        </div>
+
+        <div class="page-body">
+            <div class="form-group navbar-form">
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <!--基本信息-->
+                    <div class="well with-header">
+                        <div class="header bordered-blue">订单</div>
+                        <div class="form-horizontal form-bordered">
+                            <div class="form-group">
+                                <label class="col-sm-3 no-padding text-right">订单编号</label>
+                                <div class="col-sm-9">
+                                    @(MemberOrder.OrderCode)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">客户姓名</label>
+                                <div class="col-sm-9">
+                                    @(MemberOrder.CustomerName)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">会员级别</label>
+                                <div class="col-sm-9">
+                                    @(MemberOrder.LevelName)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">会员类型</label>
+                                <div class="col-sm-9">
+                                    @(MemberOrder.Type == 1 ? "个人会员" : "家庭会员")
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">购买人数</label>
+                                <div class="col-sm-9">
+                                    @(MemberOrder.Qty)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">订单原价</label>
+                                <div class="col-sm-9" style="word-break: break-all; word-wrap:break-word">
+                                    @(MemberOrder.OriginAmount)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">实付金额</label>
+                                <div class="col-sm-9" style="word-break: break-all; word-wrap:break-word">
+                                    @(MemberOrder.OrderAmount)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">优惠券号</label>
+                                <div class="col-sm-9" style="word-break: break-all; word-wrap:break-word">
+                                    @(MemberOrder.CouponCode)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">优惠金额</label>
+                                <div class="col-sm-9" style="word-break: break-all; word-wrap:break-word">
+                                    @(MemberOrder.DiscountAmount)
+                                </div>
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">支付状态</label>
+                                @{switch (MemberOrder.PaymentStatus)
+                                    {
+                                        case 1:
+                                            <div class="col-sm-9">
+                                                未支付
+                                            </div>
+                                            break;
+                                        case 2:
+                                            <div class="col-sm-9">
+                                                定金支付 
+                                            </div>
+                                            break;
+                                        case 3:
+                                            <div class="col-sm-9">
+                                                已支付
+                                            </div>
+                                            break;
+                                        case 4:
+                                            <div class="col-sm-9">
+                                                已退款
+                                            </div>
+                                            break;
+                                        default:
+                                            <div class="col-sm-9">
+                                            </div>
+                                            break;
+                                    }
+                                }
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">订单状态</label>
+                                @{switch (MemberOrder.OrderStatus)
+                                    {
+                                        case 1:
+                                            <div class="col-sm-9">
+                                                未完成
+                                            </div>
+                                            break;
+                                        case 2:
+                                            <div class="col-sm-9">
+                                                已完成
+                                            </div>
+                                            break;
+                                        case 3:
+                                            <div class="col-sm-9">
+                                                取消
+                                            </div>
+                                            break;
+                                        default:
+                                            <div class="col-sm-9">
+                                            </div>
+                                            break;
+                                    }
+                                }
+                            </div>
+                            <div class="form-group padding-top-10">
+                                <label class="col-sm-3 no-padding text-right">创建日期</label>
+                                <div class="col-sm-9" style="word-break: break-all; word-wrap:break-word">
+                                    @(MemberOrder.CreatetTime.ToString("yyyy-MM-dd HH:mm:ss"))
+                                </div>
+                            </div>
+
+                            <div class="form-group padding-top-10">
+                                <div class="col-lg-7 text-right">
+                                    <a class=" btn-info btn-lg" onclick=" window.location.href=document.referrer;">返 回</a>
+                                    @if (MemberOrder.PaymentStatus == 1)
+                                    {
+                                        <a class=" btn-blue btn-lg" onclick="QueryPayResult('@(MemberOrder.OrderCode)')">刷新支付信息</a>
+                                    }
+
+                                    @if (ViewBag.Role == 1 && ( MemberOrder.OrderStatus == 1 || MemberOrder.OrderStatus == 2))
+                                    {
+                                    <a class=" btn-blue btn-lg" onclick="CancelMemberOrder('@(model.OrderCode)')">取消订单</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    @if (model.Data.listPayment != null && model.Data.listPayment.Count > 0)
+                    {
+                        foreach (Model.Manage_Model.Payment_Model payment in model.Data.listPayment)
+                        {
+                            <!--支付详情-->
+                            <div class="well with-header">
+                                <div class="header bordered-blue">支付详情</div>
+                                <div class="form-horizontal form-bordered">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 no-padding text-right">支付编号</label>
+                                        <div class="col-sm-9">
+                                            @(payment.PayMentCode)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group padding-top-10">
+                                        <label class="col-sm-3 no-padding text-right">支付类型</label>
+                                        <div class="col-sm-9">
+                                            @(payment.Type == 1 ? "支付" : "退款")
+                                        </div>
+                                    </div>
+                                    <div class="form-group padding-top-10">
+                                        <label class="col-sm-3 no-padding text-right">关联支付编号</label>
+                                        <div class="col-sm-9">
+                                            @(payment.RelatedPaymentCode)
+                                        </div>
+                                    </div>
+                                    <div class="form-group padding-top-10">
+                                        <label class="col-sm-3 no-padding text-right">来源</label>
+                                        <div class="col-sm-9">
+                                            @(payment.Type == 1 ? "会员订单" : payment.Type == 2 ? "服务订单" : "产品订单")
+                                        </div>
+                                    </div>
+                                    <div class="form-group padding-top-10">
+                                        <label class="col-sm-3 no-padding text-right">实付金额</label>
+                                        <div class="col-sm-9">
+                                            @(payment.OrderAmount)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group padding-top-10">
+                                        @if (payment.listPaymentDetail != null && payment.listPaymentDetail.Count > 0)
+                                        {
+                                            foreach (Model.Manage_Model.PaymentDetail_Model detail in payment.listPaymentDetail)
+                                            {
+                                                <div class="row margin-top-10">
+                                                    <div class="col-sm-12">
+                                                        <label class="col-sm-3 no-padding text-right">详情编号</label>
+                                                        <div class="col-sm-9">
+                                                            @(detail.DetailCode)
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <label class="col-sm-3 no-padding text-right">支付方式</label>
+                                                        @switch (detail.Mode)
+                                                        {
+                                                            case 1:
+                                                                <div class="col-sm-9">
+                                                                    微信
+                                                                </div>
+                                                                break;
+                                                            case 2:
+                                                                <div class="col-sm-9">
+                                                                    现金
+                                                                </div>
+                                                                break;
+                                                            case 3:
+                                                                <div class="col-sm-9">
+                                                                    优惠券
+                                                                </div>
+                                                                break;
+                                                            case 4:
+                                                                <div class="col-sm-9">
+                                                                    健康币
+                                                                </div>
+                                                                break;
+                                                            default:
+                                                                <div class="col-sm-9">
+                                                                </div>
+                                                                break;
+                                                        }
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <label class="col-sm-3 no-padding text-right">支付金额</label>
+                                                        <div class="col-sm-9">
+                                                            @(detail.PaidAmount)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

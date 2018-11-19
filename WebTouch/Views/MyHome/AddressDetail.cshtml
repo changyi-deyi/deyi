@@ -1,0 +1,369 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="AddressDetailApp" ng-controller="AddressDetailCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/AddressList" ng-if="From == 1">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/ExchangeVipHome?i={{ActID}}&add={{addressID}}&sex={{Gender}}&n={{vipName}}&m={{Mobile}}&age={{Age}}&idn={{IDNumber}}" ng-if="From == 2">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>地址详情</span>
+        <addresstype ng-if="Type == 2">
+            <a class="inlineB headerRightIcon width3_2x height3_2x lineHeight3_2x lineHeight3x whiteTex" ng-click="DeleteAddress()">
+                <span class="iconfont font1x">&#xe661;</span>
+            </a>
+        </addresstype>
+    </div>
+    <div class="MT3x MB4_8x">
+        <div class="textL clearfix">
+            <p class="fl borderBox width100 P0_8x">
+                <span class=" textL">请输入详细信息</span>
+            </p>
+            <!--升级补款-->
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">姓名(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x" placeholder="请输入姓名" ng-model="Name">
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">电话(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x" placeholder="请输入电话" ng-model="Phone">
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">地区(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <select class="borderBox P0" ng-change="ChangeDistrict(2)" ng-model="SelectProv">
+                                    <option value="{{p.REGION_CODE}}" ng-repeat="p in prov">{{p.REGION_NAME}}</option>
+                                </select>
+                                <select class="borderBox P0" ng-change="ChangeDistrict(3)" ng-model="SelectCity">
+                                    <option value="{{c.REGION_CODE}}" ng-repeat="c in city">{{c.REGION_NAME}}</option>
+                                </select>
+                                <select class="borderBox P0" ng-model="SelectDistrict">
+                                    <option value="{{d.REGION_CODE}}" ng-repeat="d in district">{{d.REGION_NAME}}</option>
+                                </select>
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box flex-item-start">
+                            <span class="inlineB width5x">详细地址(必填)</span>
+                            <span class="inlineB width80 ML0_8x font09x">
+                                <textarea class="borderBox width100 P0_8x border1 borderGray lineHeight1_5x" style="height:6em;" placeholder="点击输入详细地址" ng-model="Address"></textarea>
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">默认地址</span>
+                            <span class="inlineB width80 ML0_8x">
+                                <i class="iconfont font1_5x" ng-class="{'blueTex':blueTex,'lightgrayTex':lightgrayTex}" ng-click="ChangeDefault(0)" ng-model="IsDefault">&#xe660;</i>
+                            </span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x PB1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="SaveAddress()">保 存</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('AddressDetailApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    app.controller('AddressDetailCtrl', function ($scope, $http, $location) {
+        $scope.Type = parseInt($location.search().a); //1：新增 2：编辑
+        $scope.From = parseInt($location.search().from); //1：地址列表跳转 2：会员俱乐部跳转
+        $scope.ActID = $location.search().act;
+        $scope.IsNew = parseInt($scope.Type);
+        $scope.blueTex = true;
+        $scope.lightgrayTex = false;
+        $scope.IsDefault = 1; // 1：是 2：不是
+        $scope.DataID = 0;
+
+        //跳转会员俱乐部
+        $scope.addressID = parseInt($location.search().add);
+        $scope.Gender = parseInt($location.search().sex);
+        $scope.vipName = $location.search().n;
+        $scope.Mobile = $location.search().m;
+        $scope.Age = $location.search().age;
+        $scope.IDNumber = $location.search().idn;
+
+        if ($scope.Type == 2) {
+            $scope.Name = $location.search().a1;
+            $scope.Phone = $location.search().a2;
+            $scope.SelectProv = $location.search().a3;
+            $scope.SelectCity = $location.search().a4;
+            $scope.SelectDistrict = $location.search().a5;
+            $scope.Address = $location.search().a6;
+            $scope.IsDefault = parseInt($location.search().a7);
+            $scope.DataID = parseInt($location.search().a8);
+            $scope.InitSelectProv = $location.search().a3;
+            $scope.InitSelectCity = $location.search().a4;
+            $scope.InitSelectDistrict = $location.search().a5;
+        } else {
+            $scope.SelectProv = "";
+            $scope.SelectCity = "";
+            $scope.SelectDistrict = "";
+        }
+        $scope.SaveAddress = function () {
+            if (angular.isUndefined($scope.Name) || $scope.Name == "") {
+                swal("请输入姓名");
+                return;
+            }
+            if (angular.isUndefined($scope.Phone) || $scope.Phone == "") {
+                swal("请输入电话");
+                return;
+            }
+            if (angular.isUndefined($scope.Address) || $scope.Address == "") {
+                swal("请输入详细地址");
+                return;
+            }
+            if (angular.isUndefined($scope.SelectProv) || $scope.SelectProv == "") {
+                swal("请输入地址");
+                return;
+            }
+            if (angular.isUndefined($scope.SelectCity) || $scope.SelectCity == "") {
+                swal("请输入地址");
+                return;
+            }
+            if (angular.isUndefined($scope.SelectDistrict) || $scope.SelectDistrict == "") {
+                swal("请输入地址");
+                return;
+            }
+            $http({
+                method: 'post',
+                url: '/MyHome/saveAddress',
+                params: {
+                    ID: $scope.DataID,
+                    Name: $scope.Name,
+                    Phone: $scope.Phone,
+                    Address: $scope.Address,
+                    ProvinceID: $scope.SelectProv,
+                    CityID: $scope.SelectCity,
+                    DistrictID: $scope.SelectDistrict,
+                    IsDefault: $scope.IsDefault,
+                    IsNew: $scope.IsNew
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    swal({
+                        text: req.Message,
+                        confirmButtonText: "确定",
+                    }).then(() => {
+                        if ($scope.From == 1) {
+                            window.location.href = '/MyHome/AddressList';
+                        } else {
+                            window.location.href = '/MyHome/ExchangeVipHome?i=' + $scope.ActID + '&add=' + $scope.addressID + '&sex=' + $scope.Gender + '&n=' + $scope.vipName + '&m=' + $scope.Mobile + '&age=' + $scope.Age + '&idn=' + $scope.IDNumber;
+
+                        }
+                    });
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.DeleteAddress = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/deleteAddress',
+                params: {
+                    ID: $scope.DataID
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    swal({
+                        text: req.Message,
+                        confirmButtonText: "确定",
+                    }).then(() => {
+                        window.location.href = '/MyHome/AddressList';
+                    });
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.ChangeDefault = function (val) {
+            if (val == 0) {
+                if ($scope.blueTex) {
+                    $scope.blueTex = false;
+                    $scope.lightgrayTex = true;
+                    $scope.IsDefault = 2;
+                } else {
+                    $scope.blueTex = true;
+                    $scope.lightgrayTex = false;
+                    $scope.IsDefault = 1;
+                }
+            }
+            if (val == 1) {
+                $scope.blueTex = true;
+                $scope.lightgrayTex = false;
+            }
+            if (val == 2) {
+                $scope.blueTex = false;
+                $scope.lightgrayTex = true;
+            }
+        };
+        $scope.GetDistrict = function (REGION_LEVEL, PARENT_ID) {
+            if (PARENT_ID == "") {
+                switch (REGION_LEVEL) {
+                    case 2:
+                        $scope.city = [{ REGION_NAME: "地级市", REGION_CODE: "" }];
+                        $scope.SelectCity = "";
+                        $scope.district = [{ REGION_NAME: "市、县、区", REGION_CODE: "" }];
+                        $scope.SelectDistrict = "";
+                        break;
+                    case 3:
+                        $scope.district = [{ REGION_NAME: "市、县、区", REGION_CODE: "" }];
+                        $scope.SelectDistrict = "";
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                $http({
+                    method: 'post',
+                    url: '/MyHome/getDistrict',
+                    params: {
+                        REGION_LEVEL: REGION_LEVEL,
+                        PARENT_ID: PARENT_ID
+                    }
+                }).success(function (req) {
+                    if (req.Code == "1") {
+                        switch (REGION_LEVEL) {
+                            case 1:
+                                $scope.prov = req.Data;
+                                var provtmp = {
+                                    REGION_NAME: "省份",
+                                    REGION_CODE: ""
+                                }
+                                $scope.prov.unshift(provtmp);
+                                $scope.city = [{ REGION_NAME: "地级市", REGION_CODE: "" }];
+                                $scope.SelectCity = "";
+                                $scope.district = [{ REGION_NAME: "市、县、区", REGION_CODE: "" }];
+                                $scope.SelectDistrict = "";
+                                break;
+                            case 2:
+                                $scope.city = req.Data;
+                                var citytmp = {
+                                    REGION_NAME: "地级市",
+                                    REGION_CODE: ""
+                                }
+                                $scope.city.unshift(citytmp);
+                                $scope.district = [{ REGION_NAME: "市、县、区", REGION_CODE: "" }];
+                                $scope.SelectCity = "";
+                                $scope.SelectDistrict = "";
+                                break;
+                            case 3:
+                                $scope.district = req.Data;
+                                var districttmp = {
+                                    REGION_NAME: "市、县、区",
+                                    REGION_CODE: ""
+                                }
+                                $scope.district.unshift(districttmp);
+                                $scope.SelectDistrict = "";
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        swal(req.Message);
+                    }
+                }).error(function () {
+                    swal(req.Code);
+                    swal("网络繁忙,请稍后再试！");
+                });
+            };
+        };
+        $scope.InitGetDistrict = function (REGION_LEVEL, PARENT_ID) {
+            $http({
+                method: 'post',
+                url: '/MyHome/getDistrict',
+                params: {
+                    REGION_LEVEL: REGION_LEVEL,
+                    PARENT_ID: PARENT_ID
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    switch (REGION_LEVEL) {
+                        case 1:
+                            $scope.prov = req.Data;
+                            var provtmp = {
+                                REGION_NAME: "省份",
+                                REGION_CODE: ""
+                            }
+                            $scope.prov.unshift(provtmp);
+                            $scope.SelectCity = $scope.InitSelectCity;
+                            $scope.SelectDistrict = $scope.InitSelectDistrict;
+                            break;
+                        case 2:
+                            $scope.city = req.Data;
+                            var citytmp = {
+                                REGION_NAME: "地级市",
+                                REGION_CODE: ""
+                            }
+                            $scope.city.unshift(citytmp);
+                            $scope.SelectCity = $scope.InitSelectCity;
+                            break;
+                        case 3:
+                            $scope.district = req.Data;
+                            var districttmp = {
+                                REGION_NAME: "市、县、区",
+                                REGION_CODE: ""
+                            }
+                            $scope.district.unshift(districttmp);
+                            $scope.SelectDistrict = $scope.InitSelectDistrict;
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.ChangeDistrict = function (val) {
+            switch (val) {
+                case 2:
+                    $scope.GetDistrict(val, $scope.SelectProv);
+                    break;
+                case 3:
+                    $scope.GetDistrict(val, $scope.SelectCity);
+                    break;
+                default:
+                    break;
+            };
+        };
+        
+        if ($scope.Type == 2) {
+            $scope.InitGetDistrict(1, 1);
+            $scope.InitGetDistrict(2, $scope.InitSelectProv);
+            $scope.InitGetDistrict(3, $scope.InitSelectCity);
+        } else {
+            $scope.GetDistrict(1, 1);
+        }
+        $scope.ChangeDefault($scope.IsDefault);
+    });
+</script>

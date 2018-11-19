@@ -1,0 +1,80 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="ConsultationListApp" ng-controller="ConsultationListCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyHome">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>我的咨询</span>
+        <a class="block headerRightIcon height3_2x lineHeight3_2x  whiteTex PR0_8x" href="/Consultation/Consultation?g=0">
+            <span class="iconfont font1x MR0_4x">&#xe603;</span><span class="font09x">新咨询</span>
+        </a>
+    </div>
+    <div class="MT3x MB4_8x">
+        <!--订单列表-->
+        <ul class="">
+            <consultationlist ng-repeat="x in consultationList">
+                <li class="whiteBkg MB0_4x">
+                    <a href="/MyHome/MyConsultation?g={{x.groupID}}">
+                        <div class="P1_1x font09x">
+                            <div class="MB1x borderB">
+                                <div class="clearfix MB1x flex-box">
+                                    <p class="fl width50 textL grayTex">
+                                        {{x.startTime}}
+                                    </p>
+                                    <p class="fr width50 textR">
+                                        <answerflg ng-if="x.answerFlg == 2">
+                                            <span class="greenTex"><i class="iconfont MR0_4x">&#xe64b;</i>已回答</span>
+                                        </answerflg>
+                                        <answerflg ng-if="x.answerFlg == 1">
+                                            <span class="redTex"><i class="iconfont MR0_4x">&#xe64e;</i>未回答</span>
+                                        </answerflg>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="lineHeight1_5x">
+                                {{x.content}}
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </consultationlist>
+        </ul>
+    </div>
+</div>
+<script>
+    var app = angular.module('ConsultationListApp', []);
+    app.controller('ConsultationListCtrl', function ($scope, $http) {
+        $scope.GetAdvisoryList = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/getAdvisoryList'
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    var consultationList = $scope.consultationList = [];
+                    $scope.addConsultationList = function () {
+                        for (var i in req.Data) {
+                            consultationList.push({
+                                groupID: req.Data[i].ID, // 同一咨询ID
+                                startTime: req.Data[i].CreatetTime, // 同一咨询ID的初始问题的咨询时间
+                                content: req.Data[i].Content, // 同一咨询ID的初始问题的咨询内容
+                                answerFlg: req.Data[i].IsDone // 是否回答 1：未处理 2：已处理
+                            });
+                        }
+                    };
+                    $scope.addConsultationList();
+                } else {
+                    //swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetAdvisoryList();
+    });
+</script>

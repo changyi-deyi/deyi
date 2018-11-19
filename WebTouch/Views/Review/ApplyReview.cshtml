@@ -1,0 +1,122 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="ApplyReviewApp" ng-controller="ApplyReviewCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/Review/Review">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>申请复诊</span>
+    </div>
+    <div class="MT3x MB4_8x">
+        <div class="textL clearfix">
+            <ul class="fl width100 MB0_4x">
+                <li class="whiteBkg">
+                    <div class="P1_1x">
+                        <p class="clearfix MB0_4x">
+                            <span class="fl textL fontBlod">
+                                <i class="iconfont MR0_4x greenTex font1x">&#xe721;</i>就诊须知
+                            </span>
+                        </p>
+                        <div class="font09x lineHeight1_5x">
+                            <p>1、购买服务后会有专属的私人医生和您取得联系，确认就诊时间</p>
+                            <p>2、您上次已经填写的如下信息，请再次确认</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="fl borderBox width100 P1_1x MB0_4x whiteBkg">
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">姓名</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" value="张权泽" disabled="disabled" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">性别</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" value="男" disabled="disabled" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">年龄</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100 disabled" type="text" value="55" disabled="disabled" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">所在城市</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" value="上海" disabled="disabled" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">期望就诊时间</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" value="2018-05-01" />
+                    </span>
+                </li>
+            </ul>
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="clearfix MB1x textL">
+                            <span class="">付款内容：</span>
+                            <span class="ML0_8x fontBlod">复诊预约</span>
+                        </p>
+                        <p class="clearfix textL">
+                            <span class="">总金额：</span>
+                            <span class="ML0_8x fontBlod redTex MR0_4x">699</span><span>元</span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <!--支付渠道-->
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="PLR1_1x">
+                        <a class="clearfix PB0_8x PT1_1x MB1x borderB">
+                            <div class="fl flex-box">
+                                <span class="iconfont font1_8x greenTex">&#xe646;</span>
+                                <span class="ML0_8x fontBlod greenTex">微信支付</span>
+                            </div>
+                            <div class="fr">
+                                <span class="iconfont font1_5x blueTex">&#xe660;</span>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" href="">去支付</a>
+                <a class="btnSmall dy_btn lightgrayBkg whiteTex" href="Home.html">去支付</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('ApplyReviewApp', []);
+    app.controller('ApplyReviewCtrl', function ($scope, $http) {
+		$scope.GetDepartment = function () {
+					$http({
+				method: 'post',
+				url: '/Review/balanceExchange',
+				params: {
+					CouponID: couponID,
+					ExchangeAmount: exchangeAmount,
+				}
+			}).success(function (req) {
+				if (req.Code == "1") {
+				} else {
+					swal(req.Message);
+				}
+			}).error(function () {
+				swal(req.Code);
+				swal("网络繁忙,请稍后再试！");
+			});
+		};
+    });
+</script>

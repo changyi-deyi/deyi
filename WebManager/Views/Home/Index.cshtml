@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "首页";
+}
+
+<!-- 主要容器 -->
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- 侧边导航 -->
+        @Html.Partial("Sidebar", 1)
+        <!-- /侧边导航 -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Body -->
+            <div class="page-body">
+                <div class="form-group">
+                    <div class="page-container well text-align-center">
+                        <div class="margin-top-20 margin-bottom-20">
+                            <img style="width: 30%;" src="/assets/img/home_logo.png">
+                        </div>
+                        <h1>欢迎使用管理系统</h1>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+    </div>
+</div>

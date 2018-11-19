@@ -1,0 +1,139 @@
+﻿@{
+
+}
+
+
+<script src="/assets/js/ajaxfileupload.js"></script>
+<script src="/Scripts/Banner.js"></script>
+<!DOCTYPE html>
+<!--页面主体-->
+<div class="page-container">
+    <!--左侧菜单-->
+    @Html.Partial("Sidebar", 12)
+    <!--左侧菜单 结束-->
+    <!--右侧主体内容-->
+    <div class="page-content">
+        <div class="page-breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/Setting/BannerList">轮播图</a>
+                </li>
+                <li class="active">详情</li>
+            </ul>
+        </div>
+        <div class="page-body">
+            <div id="popbg" class="modal-backdrop fade" style="display: none;"></div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog loading-icon" style="width: 400px; margin-top: 150px;">
+                    <img src="/assets/img/loading.gif" />
+                </div>
+            </div>
+            <div class="list-content">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">图片</label>
+                        <div class="col-md-9">
+                            <div class="databox">
+                                <div class="databox-left no-padding margin-right-20 " id="divPic">
+                                    <img style="width: 65px; height: 65px;" id="img" >
+                                        <a class="btn btn-danger btn-xs delete pull-right" style="position:absolute;right:0px;" onclick="deleteImage(this)"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input class="input-file pull-left" name="image_file" id="image_file" type="file" style="margin-left:15px;">
+                                <a class="btn btn-sm green" onclick="UploadImage()"><i class="fa fa-upload"></i>上传图片</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">链接类型</label>
+
+                        <div class="col-lg-5">
+                            <select class="select form-control gh-w-100p col-sm-12" id="ddlType">
+                                <option value="0">无</option>
+                                <option value="1">外链</option>
+                                <option value="2">医生</option>
+                                <option value="3">产品</option>
+                                <option value="4">服务</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">链接值</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" type="text" placeholder="请输入链接值" id="txtValue"  />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-7 text-right">
+                            <a class=" btn-info btn-lg" onclick=" window.location.href=document.referrer;">返 回</a>
+                            <a class=" btn-blue btn-lg">保 存</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+    });
+
+
+    function UploadImage() {
+        if ($("#image_file").val() == "") {
+            alert("请选择图片");
+            return;
+        }
+
+        $("#popbg").addClass("in").show();
+        $("#myModal").addClass("in").show();
+        $.ajaxFileUpload
+            (
+            {
+                url: '/File/FileUpload', //用于文件上传的服务器端请求地址
+                data: {
+
+                },
+                secureuri: false, //一般设置为false
+                fileElementId: 'image_file', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                dataType: 'json', //返回值类型 一般设置为json
+                success: function (data)  //服务器成功响应处理函数
+                {
+                    if (data.Code == "1") {
+                        showImage(data.Data, data.FileName);
+                        alert("上传成功");
+                    } else {
+                        alert("上传失败");
+                    }
+                    $("#popbg").removeClass("in").hide();
+                    $("#myModal").removeClass("in").hide();
+                },
+                error: function (data, status, e)//服务器响应失败处理函数
+                {
+                    alert(e);
+                    $("#popbg").removeClass("in").hide();
+                    $("#myModal").removeClass("in").hide();
+                }
+            }
+            );
+    }
+
+    function showImage(url, file_name) {
+        $("#img").attr("src", url);
+        $("#img").attr("f", file_name);
+        if ($("#divPic a").size() == 0) {
+            $("#divPic").append('<a  class="btn btn-danger btn-xs delete pull-right" style="position:absolute;right:0px; onclick="deleteImage(this)" ><i class="fa fa-trash-o"></i></a>');
+        }
+    }
+
+    function deleteImage(e) {
+        $("#img").attr("f", "");
+        $("#img").attr("src", "/assets/img/Pic70.png");
+        $(e).remove();
+    }
+</script>
+</script>

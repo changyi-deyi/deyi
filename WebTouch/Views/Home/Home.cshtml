@@ -1,0 +1,220 @@
+﻿@{
+}
+<link href="/assets/css/Bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<script src="/assets/js/angular-animate.min.js"></script>
+<script src="/assets/js/ui-bootstrap.min.js"></script>
+<script src="/assets/js/ui-bootstrap-tpls.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+<div ng-app="HomeApp" ng-controller="HomeCtrl">
+    <div class="fixTop">
+        <ul class="fl whiteBkg width100  borderB">
+            <li>
+                <div class="block borderBox width100 P0_8x font08x clearfix">
+                    <div class="fl width10 textC PT0_4x blackTex">
+                        <a class="block positionR" href="/MyMark/MyMark">
+                            <span class="iconfont font1_5x">&#xe62c;</span>
+                            <div ng-if="SignStatus == '1'">
+                                <span class="positionA icon_Tips TopRight0"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="fl width80">
+                        <span class="block MT5" style="color: #3e3a39;font-size:12px">首页</span>
+                        @*<div class="clearfix top_Search MLRAuto">
+                            <span class="fl" style="width: 2em;"><i class="iconfont font1_2x lightgrayTex">&#xe6d8;</i></span>
+                            <input class="fl width80 borderNone" type="text" placeholder="搜索症状/疾病/医生/科室/好物" onkeypress="Search();" />
+                        </div>*@
+                    </div>
+                    <div class="fr width10 PT0_4x textC blackTex">
+                        <a class="block positionR" href="/NewsList/NewsList">
+                            <span class="iconfont font1_5x">&#xe618;</span>
+                            <div ng-if="ReadFlg == '1'">
+                                <span class="positionA icon_Tips TopRight0"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="MT3_4x">
+        <div>
+            <carousel interval="myInterval" no-wrap="noWrapSlides">
+                <slide ng-repeat="slide in slides" active="slide.active">
+                    <!-- 0：无 -->
+                    <linktype ng-if="slide.type == 0">
+                        <img ng-src="{{slide.image}}" height="180" />
+                    </linktype>
+                    <!-- 1：外链 -->
+                    <linktype ng-if="slide.type == 1">
+                        <a href="{{slide.href}}">
+                            <img ng-src="{{slide.image}}" height="180"/>
+                        </a>
+                    </linktype>
+                    <!-- 2：医生 -->
+                    <linktype ng-if="slide.type == 2">
+                        <a href="/DoctorList/DoctorDetail?c={{slide.href}}">
+                            <img ng-src="{{slide.image}}" height="180"/>
+                        </a>
+                    </linktype>
+                    <!-- 3：产品 4：服务 -->
+                    <linktype ng-if="slide.type == 3 || slide.type == 4">
+                        <a href="/ServiceList/ServiceDetail?s={{slide.href}}">
+                            <img ng-src="{{slide.image}}" height="180"/>
+                        </a>
+                    </linktype>
+                </slide>
+            </carousel>
+        </div>
+    </div>
+
+    <div class="textL clearfix">
+        <!--内容模块-->
+        <div class="fl borderBox width100 whiteBkg textC MT0_8x">
+            <div class="P0_8x">
+                <p class="PTB1_25x clearfix borderB">
+                    <a class="inlineB PTB1_25x fl width50 flex-box text-center " href="/ServiceList/ServiceList">
+                        <span class="inlineB width55 textR MR0_8x" style="color: #fbd55e!important;">就医服务</span>
+                        <span class="inlineB width45 textL">
+                            <i class="iconfont font1_8x grayTex" style="color: #fbd55e!important;">&#xe67d;</i>
+                        </span>
+                    </a>
+                    <a class="inlineB PTB1_25x fl width50 flex-box text-center " href="/OpenVIP/OpenVIP">
+                        <span class="inlineB width55 textR MR0_8x" style="color: #fbd55e!important;">开通会员</span>
+                        <span class="inlineB width45 textL">
+                            <i class="iconfont font1_8x grayTex" style="color: #fbd55e!important;">&#xe66d;</i>
+                        </span>
+                    </a>
+                </p>
+                <p class="PTB1x PT2x clearfix">
+                    <a class="inlineB fl width25" href="/Consultation/Consultation?g=0">
+                        <span class="block">
+                            <i class="iconfont font2_5x blueTex">&#xe603;</i>
+                        </span>
+                        <span class="block MT5" style="color: #3e3a39;">免费咨询</span>
+                    </a>
+                    <a class="inlineB fl width25" href="/DoctorList/DoctorList">
+                        <span class="block">
+                            <i class="iconfont font2_5x blueTex">&#xe61e;</i>
+                        </span>
+                        <span class="block MT5" style="color: #3e3a39;">找医生</span>
+                    </a>
+                    <a class="inlineB fl width25" ng-click="wait()">
+                        <span class="block">
+                            <i class="iconfont font2_5x blueTex">&#xe657;</i>
+                        </span>
+                        <span class="block MT5" style="color: #3e3a39;">健康好物</span>
+                    </a>
+                    <a class="inlineB fl width25" href="/Review/Review">
+                        <span class="block">
+                            <i class="iconfont font2_5x blueTex">&#xe6c7;</i>
+                        </span>
+                        <span class="block MT5" style="color: #3e3a39;">复查</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+        <!--/ 内容模块-->
+        <!--会员信息-->
+        <ul class="fl whiteBkg width100 MT0_8x MB5_2x">
+            <li>
+                <a class="block P1_1x textC" href="/MyHeathRecordList/MyHeathRecordList?t=0">
+                    <span class=" width25 textL">健康档案</span>
+                    <span class="ML0_8x"><i class="iconfont font1x">&#xe604;</i></span>
+                </a>
+            </li>
+        </ul>
+        <!--/ 会员信息-->
+    </div>
+    <div class="fixBottom positionR whiteBkg PT0_8x PB0_4x borderT flex-box">
+        <a class="width33_3 flex-box flex-box-col blueTex" href="/Home/Home">
+            <span class="iconfont font1_4x">&#xe6a6;</span>
+            <span class="font085x">首页</span>
+        </a>
+        <a class="width33_3 flex-box flex-box-col" ng-click="wait()">
+            <span class="iconfont font1_4x">&#xe657;</span>
+            <span class="font085x">好物推荐</span>
+        </a>
+        <a class="width33_3 flex-box flex-box-col " href="/MyHome/MyHome">
+            <span class="iconfont font1_4x">&#xe61f;</span>
+            <span class="font085x">我的</span>
+        </a>
+    </div>
+</div>
+<script>
+    angular.module('HomeApp', ['ui.bootstrap', 'ngAnimate']).controller('HomeCtrl', function ($scope, $http) {
+        // 轮显图片取得
+        $http({
+            method: 'post',
+            url: '/Home/getImage',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.myInterval = 3000;
+                $scope.noWrapSlides = false;
+                var slides = $scope.slides = [];
+                $scope.addSlide = function () {
+                    var newWidth = 600 + slides.length + 1;
+                    for (var i in req.Data) {
+                        slides.push({
+                            type: req.Data[i].Type,
+                            image: req.Data[i].ImageURL,
+                            href: req.Data[i].Value
+                        });
+                    }
+                };
+                $scope.addSlide();
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal("网络繁忙,请稍后再试！");
+        });
+
+        // 签到状态取得
+        $http({
+            method: 'post',
+            url: '/Home/getMark',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.SignStatus = req.Data.SignStatus;
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+
+        // 未读消息状态取得
+        $scope.ReadFlg = "0";
+        $http({
+            method: 'post',
+            url: '/Home/getReadFlag',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                if (req.Data > 0) {
+                    $scope.ReadFlg = "1"; // 有未读消息
+                }
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+            });
+
+        $scope.wait = function () {
+            swal("敬请期待！");
+        };
+    });
+
+    // 搜索
+    function Search() {
+        var SearchLink = "/Search/Search";
+        if (event.keyCode === 13) {
+            window.location.href = SearchLink;
+        }
+    }
+</script>

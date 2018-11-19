@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/color.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+    <script src="/assets/js/sweetalert.min.js"></script>
+    <script src="/assets/js/angular.js"></script>
+    <script src="/assets/js/angular-cookie.js"></script>
+    <script src="/Scripts/Login.js"></script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+    </style>
+</head>
+<body class="font09x">
+    <div class="MB5_2x">
+        <div class="textL clearfix" ng-app="LoginApp" ng-controller="LoginController">
+            <div class="">
+                <img src="/assets/img/login_bg.png" />
+            </div>
+            <ul class="MLRAuto borderBox width80 P1_1x MT15 MT0_4x">
+                <li class="PTB0_8x borderB clearfix flex-box">
+                    <span class="fl width15 blueTex"><i class="iconfont font1_5x">&#xe640;</i></span>
+                    <span class="fl width80 textL">
+                        <input class="borderInput width100" type="number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="输入您的电话号码" ng-model="mobile" />
+                    </span>
+                </li>
+                <li class="PTB0_8x borderB clearfix flex-box">
+                    <span class="fl width15 blueTex"><i class="iconfont font1_5x">&#xe63d;</i></span>
+                    <span class="fl width50">
+                        <input class="borderInput width100 " type="number" oninput="if(value.length>6)value=value.slice(0,6)" placeholder="输入验证码" ng-model="Auth"  />
+                    </span>
+                    <button class="fr width30 blueTex textC" ng-click="getAuthCode()" ng-bind="description" ng-disabled="canClick" style="border: none;"></button>
+                </li>
+            </ul>
+            <div class="MLRAuto width80 MT15 textC">
+                <a class="btnSmall btnBorderCircle blueBkg whiteTex MB0_8x" ng-click="Login()">登 录</a>
+            </div>
+            <div class="MLRAuto width80 MT15 font085x textC">
+                <p class="grayTex">登录即代表您已阅读并同意以下协议</p>
+                <p><a class="blueTex ML0_8x">《德医服务协议》</a><a class="blueTex">《法律声明及隐私权政策》</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="MyVipHomeApp" ng-controller="MyVipHomeCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyHome">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>会员俱乐部</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <ul class="fl width100">
+                <actList ng-repeat="x in actList">
+                    <li class="whiteBkg MB0_4x">
+                        <div class="P1_1x font09x">
+                            <div class="clearfix flex-box">
+                                <div class="fl MR0_8x">
+                                    <a class="grayTex Square_Small_pic Square_9x_pic" ng-click="check(x.LevelID,x.Count,x.LinkURL,x.ID)">
+                                        <img src="{{x.ImageURL}}" />
+                                    </a>
+                                </div>
+                                <div class="fr width50">
+                                    <p class="MB0_8x">{{x.Name}}</p>
+                                    <p class="">
+                                        <span class="grayTex">{{x.LevelName}}专享</span>
+                                    </p>
+                                </div>
+                                <div class="fr width30 textR">
+                                    <a class="btnBorderSquare btnBorder_blue" ng-click="check(x.LevelID,x.Count,x.LinkURL,x.ID)">领取</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </actList>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('MyVipHomeApp', []);
+    app.controller('MyVipHomeCtrl', function ($scope, $http) {
+        $scope.Level = 0;
+        // 测试
+        $http({
+            method: 'post',
+            url: '/MyHome/getMemberActList',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                var actList = $scope.actList = req.Data;
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+
+
+        $http({
+            method: 'post',
+            url: '/MyHome/getUserInfo',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.Level = req.Data.LevelID; // 会员等级
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+
+        $scope.check = function (LevelID, count, LinkURL, ID) {
+            if ($scope.Level < LevelID) {
+                swal("您的会员等级过低，无法参与此次活动");
+                return;
+            } else {
+                $http({
+                    method: 'post',
+                    url: '/MyHome/MemberActCount',
+                    params: {
+                        ActID: ID
+                    }
+                }).success(function (req) {
+                    if (req.Code == "1") {
+                        if (req.Data > 0) {
+                            swal("您已经领取过此次活动，无法再次参与");
+                            return;
+                        }
+                        window.location.href = LinkURL;
+                    } else {
+                        swal(req.Message);
+                    }
+                }).error(function () {
+                    swal(req.Code);
+                    swal("网络繁忙,请稍后再试！");
+                });
+            }
+        };
+    });
+</script>

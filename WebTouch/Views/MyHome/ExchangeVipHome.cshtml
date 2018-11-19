@@ -1,0 +1,209 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="ExchangeVipHomeApp" ng-controller="ExchangeVipHomeCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyVipHome">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>会员俱乐部</span>
+        <!--<a class="block headerRightIcon width3_2x height3_2x whiteTex" href="AddAddress.html">
+            <span class="iconfont">&#xe615;</span>
+        </a>-->
+    </div>
+    <div class="MT3x MB4_8x">
+        <div class="textL clearfix">
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">姓名(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x width100" placeholder="姓名"  ng-model="Name">
+                            </span>
+                        </p>
+                        <p class="MB1x clearfix flex-box">
+                            <span class="inlineB width5x">性别(必填)</span>
+                            <span class="fl width70">
+                                <a class="btnBorderSquare MR0_8x" ng-class="{'btnBorder_blue':btnBorder_blue1,'btnBorder_gray':btnBorder_gray1}" ng-click="ChangeGender(1);">男</a>
+                                <a class="btnBorderSquare" ng-class="{'btnBorder_blue':btnBorder_blue2,'btnBorder_gray':btnBorder_gray2}" ng-click="ChangeGender(2);">女</a>
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">年龄(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x width100" placeholder="年龄" ng-model="Age">
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">手机(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x width100" placeholder="手机号码" ng-model="Mobile">
+                            </span>
+                        </p>
+                        <p class="MB1x textL flex-box">
+                            <span class="inlineB width5x">身份证号(必填)</span>
+                            <span class="inlineB width80 ML0_8x borderB">
+                                <input type="text" class="borderBox P0_4x borderNone lineHeight1_5x width100" placeholder="身份证号码" ng-model="IDNumber">
+                            </span>
+                        </p>
+                        <div>
+                            <p class="MB1x textL flex-box">
+                                <span class="inlineB width5x">收货地址</span>
+                                <span class="inlineB width80 ML0_8x font09x">
+                                    <select class="borderBox width100 P0_4x borderB width100" ng-model="addressID" ng-options="s.ID as s.AddressDetail for s in addressList">
+                                        @*<option value="{{x.ID}}" ng-repeat="x in addressList" ng-bind="x">{{x.AddressDetail}}</option>*@
+                                    </select>
+                                </span>
+                            </p>
+                            <p class="textL flex-box">
+                                <span class="inlineB width80 font09x" style="padding-left: 5.8em;">
+                                    <a class="blueTex" href="/MyHome/AddressDetail?from=2&act={{actID}}&add={{addressID}}&sex={{Gender}}&n={{Name}}&m={{Mobile}}&age={{Age}}&idn={{IDNumber}}&a=1"><i class="iconfont font1x MR0_4x">&#xe61c;</i>新地址</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <!--<div class="PLR1_1x PB1_1x font09x redTex">
+                        <span class="s_Tag red_Tag">提示内容</span>
+                    </div>-->
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x PB1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="AddAct()">保 存</a>
+                @*<a class="btnSmall dy_btn lightgrayBkg whiteTex" href="Home.html">保 存</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('ExchangeVipHomeApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    app.controller('ExchangeVipHomeCtrl', function ($scope, $location, $http) {
+
+        $http({
+            method: 'post',
+            url: '/MyHome/getAddressList'
+        }).success(function (req) {
+            if (req.Code == "1") {
+                var addressList = $scope.addressList = [];
+                $scope.addAddressList = function () {
+                    for (var i in req.Data) {
+                        addressList.push({
+                            ID: req.Data[i].ID,
+                            AddressDetail: req.Data[i].ProvinceName + req.Data[i].CityName + req.Data[i].DistrictName + req.Data[i].Address
+                        });
+                    }
+                };
+                $scope.addAddressList();
+            } else {
+                //swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+        $scope.actID = $location.search().i; // 活动ID
+        $scope.btnBorder_blue1 = false;
+        $scope.btnBorder_gray1 = false;
+        $scope.btnBorder_blue2 = false;
+        $scope.btnBorder_gray2 = false;
+        $scope.addressID = parseInt($location.search().add);
+        $scope.Gender = parseInt($location.search().sex);
+        $scope.Name = $location.search().n;
+        $scope.Mobile = $location.search().m;
+        $scope.Age = $location.search().age;
+        $scope.IDNumber = $location.search().idn;
+        
+        if ($scope.Gender == 1) {
+            $scope.btnBorder_blue1 = true;
+            $scope.btnBorder_gray2 = true;
+        };
+        if ($scope.Gender == 2) {
+            $scope.btnBorder_gray1 = true;
+            $scope.btnBorder_blue2 = true;
+        };
+
+
+
+        $scope.ChangeGender = function (val) {
+            $scope.btnBorder_blue1 = false;
+            $scope.btnBorder_gray1 = false;
+            $scope.btnBorder_blue2 = false;
+            $scope.btnBorder_gray2 = false;
+            $scope.Gender = val;
+            if (val == 1) {
+                $scope.btnBorder_blue1 = true;
+                $scope.btnBorder_gray2 = true;
+            };
+            if (val == 2) {
+                $scope.btnBorder_gray1 = true;
+                $scope.btnBorder_blue2 = true;
+            };
+        };
+
+
+        $scope.AddAct = function () {
+            if ($scope.Name == '') {
+                swal("请输入姓名");
+                return;
+            }
+            if ($scope.Mobile == '') {
+                swal("请输入手机号码");
+                return;
+            }
+            if ($scope.Age == '') {
+                swal("请输入年龄");
+                return;
+            }
+            if ($scope.IDNumber == '') {
+                swal("请输入身份证号码");
+                return;
+            }
+            if ($scope.Gender == 0) {
+                swal("请输入性别");
+                return;
+            }
+            if ($scope.addressID == 0) {
+                swal("请输入地址");
+                return;
+            }
+            $http({
+                method: 'post',
+                url: '/MyHome/AddAct',
+                params: {
+                    ActID: $scope.actID,
+                    Name: $scope.Name,
+                    Gender: $scope.Gender,
+                    Age: $scope.Age,
+                    Phone: $scope.Mobile,
+                    IDNumber: $scope.IDNumber,
+                    AddressID: $scope.addressID
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    swal({
+                        text: req.Message,
+                        confirmButtonText: "确定",
+                    }).then(() => {
+                        window.location.href = '/MyHome/MyVipHome';
+                    });
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+
+    });
+</script>

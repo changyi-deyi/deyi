@@ -1,0 +1,549 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" href="/assets/css/LCalendar.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<script src="/assets/js/LCalendar.js"></script>
+<script src="/Scripts/jweixin-1.0.0.js"></script>
+<script src="/assets/js/ng-file-upload/ng-file-upload.min.js"></script>
+<script src="/assets/js/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<div ng-app="DoctorFaceServiceApp" ng-controller="DoctorFaceServiceCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/DoctorList/DoctorDetail?c={{doctorCode}}">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>{{serviceName}}</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <ul class="borderBox P1_1x MB0_4x whiteBkg ">
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">姓名(必填)</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" placeholder="请输入姓名" ng-model="Name" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">手机号(必填)</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="number" placeholder="请输入手机号码" ng-model="Mobile" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">性别(必填)</span>
+                    <span class="fl width70">
+                        <a class="btnBorderSquare MR0_8x" ng-class="{'btnBorder_blue':btnBorder_blue1,'btnBorder_gray':btnBorder_gray1}" ng-click="ChangeGender(1);">男</a>
+                        <a class="btnBorderSquare" ng-class="{'btnBorder_blue':btnBorder_blue2,'btnBorder_gray':btnBorder_gray2}" ng-click="ChangeGender(2);">女</a>
+                    </span>
+
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">年龄(必填)</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="number" placeholder="请输入年龄" ng-model="Age" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">所在城市</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" placeholder="请输入所在城市" ng-model="LocatedCity" />
+                    </span>
+                </li>
+                <li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">期望就诊时间</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" id="demo1" onfocus="this.blur();" type="text" placeholder="请输入期望就诊时间" ng-model="ExpectTime" />
+                        @*<input id="demo1" type="text" readonly="" placeholder="日期选择特效" data-lcalendar="2016-05-11,2016-05-11" />*@
+                    </span>
+                </li>
+                <li class="PTB0_8x">
+                    <p class="MB1_1x">病史/症状(必填)</p>
+                    <p class=" font09x">
+                        <textarea class="borderBox width100 P0_8x border1 borderGray lineHeight1_5x" style="height: 10em;" placeholder="请您详细描述您的症状、做过的检查、用药情况、想要获得什么科室医生的帮助" ng-model="Description"></textarea>
+                    </p>
+                </li>
+                <!--<li class="PTB0_8x clearfix flex-box">
+                    <span class="fl width30">上传病例</span>
+                    <span class="fl width70">
+                        <input class="borderInput width100" type="text" value="2018-05-01" />
+                    </span>
+                </li>-->
+                <li class="PTB0_8x">
+                    <div class="clearfix MR0_4x">
+                        <imaList ng-repeat="x in imaList">
+                            <a class="fl Square_5x_pic MR0_4x MB0_4x" ng-click="imaDelete(x.ID,x.ImageURL,x.FileName)">
+                                <img src="{{x.ImageURL}}" />
+                            </a>
+                        </imaList>
+                        <div>
+                            <button class="fl Square_5x_pic MR0_4x MB0_4x" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="10000" ngf-max-size="10MB">
+                                <i class="iconfont font1_8x grayTex">&#xe604;</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="width100 font085x MT0_4x grayTex">
+                        <p>上传病例(选填)</p>
+                        <p>点击添加病情或检查照片，方便医生确认</p>
+                    </div>
+                </li>
+            </ul>
+            <ul class=" MB0_4x">
+                <li class="whiteBkg ">
+                    <div class="P1_1x">
+                        <div class="MB1x textL flex-box">
+                            <p class="inlineB width5x">服务价格</p>
+                            <p class="inlineB width80 ML0_8x">
+                                <isBargain ng-if="isBargain == 1">
+                                    <span class="fontBlod redTex MR0_4x">议价</span>
+                                </isBargain>
+                                <discountFlg ng-if="isBargain == 2">
+                                    <span class="fontBlod redTex MR0_4x">{{servicePrice}}</span><span>元</span>
+                                </discountFlg>
+                            </p>
+                        </div>
+                        <div class="MB1x textL flex-box" ng-if="isBargain == 2">
+                            <p class="inlineB width5x">优惠券</p>
+                            <p class="inlineB width80 ML0_8x borderB">
+                                <select class="borderBox P0" ng-change="CalcPay()" ng-model="UsingCoupon">
+                                    <option value="{{x.CouponCode}}" ng-repeat="x in coupons">{{x.Name}}</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="textL flex-box" ng-if="isBargain == 2">
+                            <p class="inlineB width5x">优惠金额</p>
+                            <p class="inlineB width80 ML0_8x">
+                                <span class="fontBlod redTex MR0_4x">{{MinusPrice | number:2}}</span><span>元</span>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--支付情况-->
+            <ul class="">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="clearfix textL">
+                            <span class="">实付金额：</span>
+                            <isBargain ng-if="isBargain == 1">
+                                <span class="ML0_8x fontBlod redTex MR0_4x">议价</span>
+                            </isBargain>
+                            <discountFlg ng-if="isBargain == 2">
+                                <span class="ML0_8x fontBlod redTex MR0_4x">{{PayPrice}}</span><span>元</span>
+                            </discountFlg>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x PB1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="ItemCheck()" ng-if="isBargain == 2">去支付</a>
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="ItemCheck()" ng-if="isBargain == 1">预约</a>
+                @*<a class="btnSmall dy_btn lightgrayBkg whiteTex" href="Home.html">去支付</a>*@
+            </div>
+        </div>
+    </div>
+    <!--弹层 开始-->
+    <div class="maskBg dispNone">
+        <div class="gpop-wapper gpop-wapper-pic">
+            <div class="gpop-content">
+                <div class="gpop-body">
+                    <img src="~/assets/img/heads.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--图片放大 弹层 开始-->
+    @*<div ng-show="mymodal1" class="maskBg div">
+        <div class="gpop-wapper gpop-wapper-pic">
+            <div class="gpop-content">
+                <div class="gpop-body box">
+                    <img ng-src="{{ImaPath}}" />
+                </div>
+                <div class="textC MT1x">
+                    <a class="btnBorderSquare btnBorder_red redBkg whiteTex" ng-click="showCheckList()"><i class="iconfont MR0_4x">&#xe661;</i>删除此图片</a>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div ng-show="mymodal1" class="maskBg div">
+        <div class="gpop-wapper gpop-wapper-pic" style="top: 0;margin-top: 0;">
+            <div class="gpop-content positionR">
+                <div class="positionA textC MT1x" style="left: 0;top: 1em;">
+                    <a class="btnBorderSquare btnBorder_gray grayBkg whiteTex" ng-click="showCheckList()"><i class="iconfont MR0_4x">&#xe661;</i>删除</a>
+                </div>
+                <div class="positionA MT1x" style="right: 0;top: 1em;">
+                    <a class="btnBorderSquare btnBorder_gray grayBkg whiteTex" ng-click="deleteCancel()"><i class="iconfont MR0_4x">&#xe64d;</i>关闭</a>
+                </div>
+                <div class="gpop-body" id="gpop-body" style="max-height: 100vh; overflow-y: scroll;">
+                    <img ng-src="{{ImaPath}}" />
+                </div>
+
+            </div>
+        </div>
+    </div> 
+    <!--弹层 结束-->
+    <!--删除档案提示 弹层 开始-->
+    <div ng-show="mymodal2" class="maskBg div">
+        <div class="gpop-wapper">
+            <div class="gpop-content">
+                <div class="gpop-body clearfix">
+                    <div class="whiteBkg width80 MLRAuto P1_6x textC borderRad05x">
+                        <p class="MB0_8x"><i class="iconfont font4x redTex">&#xe649;</i></p>
+                        <p>确定删除此档案信息吗？</p>
+                        <div class="textC MT2x">
+                            <a class="btnBorderSquare btnBorder_gray grayBkg whiteTex PTB0_4x MR0_8x" ng-click="deleteCancel()">取消</a>
+                            <a class="btnBorderSquare btnBorder_red redBkg whiteTex PTB0_4x" ng-click="deleteIma()">确 认</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--弹层 结束-->
+    <!--Loading 开始-->
+    <div class="maskBg" ng-if="loading">
+        <div class="gpop-wapper" style="background:none">
+            <div class="gpop-content">
+                <div class="gpop-body clearfix">
+                    <div class="width80 MLRAuto P1_6x textC">
+                        <div class="typing_loader"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Loading 结束-->
+</div>
+<script>
+        var calendar = new LCalendar();
+        calendar.init({
+            'trigger': '#demo1', //标签id
+            'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+            'minDate': new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(), //最小日期
+            'maxDate': (new Date().getFullYear() + 100) + '-' + new Date().getMonth() + '-' + new Date().getDate() //最大日期
+        });
+</script>
+<script>
+    var app = angular.module('DoctorFaceServiceApp', ['ngFileUpload']);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    //将字符串分割成数组
+    app.filter("toArray", function () {
+        return function (data, separator) {
+            if (data) {
+                if (!separator) {
+                    separator = ",";//默认逗号分割
+                }
+                return data.split(separator);
+            } else {
+                return [];//得到的结果类型始终为数组类型
+            }
+        }
+    });
+    app.controller('DoctorFaceServiceCtrl', ['$scope', '$http', '$location', '$filter', 'Upload', '$timeout', function ($scope, $http, $location, $filter, Upload, $timeout) {
+        $scope.doctorCode = $location.search().c; // 医生编号
+        $scope.serviceCode = $location.search().s; // 服务编号
+        $scope.serviceName = $location.search().n; // 服务名称
+        $scope.isBargain = $location.search().p1; // 是否议价
+        $scope.discountFlg = $location.search().p2; // 有无折扣
+        $scope.truePrice = $location.search().p3; // 原价
+        $scope.discountPrice = $location.search().p4; // 会员价
+        $scope.servicePrice = 0; // 服务价格
+        $scope.MinusPrice = 0;
+        $scope.PayPrice = 0; // 实付金额
+        $scope.Name = '';
+        $scope.Mobile = '';
+        $scope.Gender = 1;
+        $scope.Age = '';
+        $scope.LocatedCity = '';
+        $scope.ExpectTime = '';
+        $scope.Description = '';
+        $scope.btnBorder_blue1 = true;
+        $scope.btnBorder_gray1 = false;
+        $scope.btnBorder_blue2 = false;
+        $scope.btnBorder_gray2 = true;
+        $scope.loading = false;
+        if ($scope.isBargain == 2) {
+            if ($scope.discountFlg == 'false') {
+                $scope.servicePrice = $scope.truePrice;
+            } else {
+                $scope.servicePrice = $scope.discountPrice;
+            }
+            $scope.PayPrice = $scope.servicePrice;
+        };
+        $scope.BuyServiceInfo = function () {
+            $http({
+                method: 'post',
+                url: '/DoctorList/buyServiceInfo',
+                params: {
+                    ServerCode: $scope.serviceCode
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.coupons = [];
+                    if ($scope.isBargain == 2) {
+                        $scope.coupons = req.Data.CouponList;
+                        for (var i in $scope.coupons) {
+                            if ($scope.coupons[i].Type == 2 || $scope.coupons[i].Type == 1) {
+                                var rule = $filter('toArray')($scope.coupons[i].Rule);
+                                if (rule[0] > $scope.servicePrice) {
+                                    $scope.coupons.splice(i, 1);
+                                }
+                            }
+                        }
+                    }
+                    //$scope.coupons = req.Data.CouponList;
+                    var coupon = {
+                        Name: "请选择优惠券",
+                        CouponCode: "",
+                    }
+                    $scope.coupons.unshift(coupon);
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.CalcPay = function () {
+            for (var i in $scope.coupons) {
+                if ($scope.coupons[i].CouponCode == $scope.UsingCoupon) {
+                    var rule = $filter('toArray')($scope.coupons[i].Rule);
+                    switch ($scope.coupons[i].Type) {
+                        case 1:
+                            //1：现金券
+                            $scope.MinusPrice = rule[1];
+                            break;
+                        case 2:
+                            //2：满减券
+                            $scope.MinusPrice = rule[1];
+                            break;
+                        case 3:
+                            //3：打折券
+                            if ($scope.isBargain == 2) {
+                                $scope.MinusPrice = $filter('number')($scope.servicePrice * (1 - rule[0]),2);
+                            };
+                            break;
+                        case 4:
+                            //4：兑换券
+                            $scope.MinusPrice = $scope.servicePrice;
+                            break;
+                        default:
+                            $scope.MinusPrice = 0;
+                            break;
+                    };
+                    //实付金额
+                    $scope.PayPrice = $filter('number')(($scope.servicePrice - $scope.MinusPrice), 2);
+                };
+            };
+        };
+        $scope.ItemCheck = function () {
+            if ($scope.Name == '') {
+                swal("请输入姓名");
+                return;
+            }
+            if ($scope.Mobile == '') {
+                swal("请输入手机号码");
+                return;
+            }
+            if ($scope.Age == '') {
+                swal("请输入年龄");
+                return;
+            }
+            if ($scope.Description == '') {
+                swal("请输入病史/症状");
+                return;
+            }
+            if ($scope.Gender == 0) {
+                swal("请输入性别");
+                return;
+            }
+            $scope.SubmitOrder();
+        };
+        $scope.ChangeGender = function (val) {
+            $scope.btnBorder_blue1 = false;
+            $scope.btnBorder_gray1 = false;
+            $scope.btnBorder_blue2 = false;
+            $scope.btnBorder_gray2 = false;
+            $scope.Gender = val;
+            if (val == 1) {
+                $scope.btnBorder_blue1 = true;
+                $scope.btnBorder_gray2 = true;
+            };
+            if (val == 2) {
+                $scope.btnBorder_gray1 = true;
+                $scope.btnBorder_blue2 = true;
+            };
+        };
+        $scope.BuyServiceInfo();
+
+
+        $scope.SubmitOrder = function () {
+
+            var FileList = [];
+
+            for (var i in $scope.imaList) {
+                FileList.push($scope.imaList[i].FileName);
+            }
+
+            $http({
+                method: 'post',
+                url: '/DoctorList/AddServiceOrder',
+                params: {
+                    ServiceCode: $scope.serviceCode,
+                    DoctorCode: $scope.doctorCode,
+                    Name: $scope.Name,
+                    Mobile: $scope.Mobile,
+                    Gender: $scope.Gender,
+                    Age: $scope.Age,
+                    LocatedCity: $scope.LocatedCity,
+                    Description: $scope.Description,
+                    ExpectTime: $scope.ExpectTime,
+                    CouponCode: $scope.UsingCoupon,
+                    OriginAmount: $scope.servicePrice,
+                    OrderAmount: $scope.PayPrice,
+                    DiscountAmount: $scope.MinusPrice,
+                    AmountType: $scope.isBargain,
+                    DepositAmount: 0,
+                    DiscountFlg: $scope.discountFlg,
+                    ImgList: FileList
+                }
+            }).success(function (req) {
+                if (req == "") {
+                    swal("网络繁忙,请稍后再试！");
+                } else if (req.Code == "1" && req.Data != null) {
+                    $scope.order = req.Data.order;
+                    $scope.jsParam = req.Data.jsParam
+                    if ($scope.jsParam != "") {
+                        $scope.AddPay();
+                    }
+                } else if (req.Code == "2") {
+                    swal({
+                        text: "服务下单成功",
+                        confirmButtonText: "确定",
+                    }).then(() => {
+                        window.location.href = '/MyHome/MyOrderList_All?i=0';
+                    });
+                }
+                else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+
+        $scope.AddPay = function () {
+            if (typeof WeixinJSBridge == "undefined") {
+                swal("不是微信不能支付");
+
+            }
+            else {
+                $scope.onBridgeReady();
+            }
+        };
+
+        $scope.onBridgeReady = function () {
+            var jsModel = $scope.$eval($scope.jsParam);
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId": jsModel.appId,     //公众号名称，由商户传入
+                    "timeStamp": jsModel.timeStamp,         //时间戳，自1970年以来的秒数
+                    "nonceStr": jsModel.nonceStr, //随机串
+                    "package": jsModel.package,
+                    "signType": 'MD5',         //微信签名方式:
+                    "paySign": jsModel.paySign    //微信签名
+                },
+
+                function (res) {
+                    if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                        //  $scope.cancelPay();
+                        swal({
+                            text: "支付失败，请至订单页面重新支付",
+                            confirmButtonText: "确定",
+                        }).then(() => {
+                            window.location.href = '/MyHome/MyOrderList_All?i=0';
+                        });
+                    } else {
+                        swal({
+                            text: "支付成功",
+                            confirmButtonText: "确定",
+                        }).then(() => {
+                            window.location.href = '/MyHome/MyOrderList_All?i=0';
+                        });
+                    }
+                }
+            );
+        };
+        //上传图片
+        $scope.mymodal1 = false;
+        $scope.mymodal2 = false;
+        var imaList = $scope.imaList = [];
+        $scope.deleteID;
+        $scope.deletePath;
+        $scope.deleteUrl;
+        $scope.uploadFiles = function (file, errFiles) {
+            $scope.f = file;
+            $scope.errFile = errFiles && errFiles[0];
+            if (file) {
+                $scope.loading = true;
+                file.upload = Upload.upload({
+                    url: '/Sample/FileUpload',
+                    data: { file: file, type: 2 }
+                })
+
+                file.upload.then(function (response) {
+                    $timeout(function () {
+                        file.result = response.data;
+                        var fileJson = angular.fromJson(response.data.Data)
+                        imaList.push({
+                            ID: 0,
+                            ImageURL: fileJson.Data.ImageURL, //咨询图片表.图片路径
+                            FileName: fileJson.Data.FileName, //咨询图片表.文件名
+                        });
+                        $scope.loading = false;
+                    });
+                }, function (response) {
+                    if (response.status > 0)
+                        $scope.errorMsg = response.status + ': ' + response.data;
+                        $scope.loading = false;
+
+                }, function (evt) {
+                    file.progress = Math.min(100, parseInt(100.0 *
+                        evt.loaded / evt.total));
+                });
+            }
+        };
+        $scope.imaDelete = function (ID, path, name) {
+            $scope.ImaPath = path;
+            $scope.deleteID = ID;
+            $scope.deletePath = path;
+            $scope.deleteUrl = name;
+            $scope.mymodal1 = true;
+        };
+        $scope.showCheckList = function () {
+            $scope.mymodal2 = true;
+        };
+        $scope.deleteCancel = function () {
+            $scope.mymodal2 = false;
+            $scope.mymodal1 = false;
+        };
+        $scope.deleteIma = function () {
+            for (var i in $scope.imaList) {
+                if ($scope.deletePath == $scope.imaList[i].ImageURL) {
+                    $scope.imaList.splice(i, 1);
+                };
+            }
+            $scope.mymodal2 = false;
+            $scope.mymodal1 = false;
+        };
+    }]);
+</script>

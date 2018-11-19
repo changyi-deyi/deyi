@@ -1,0 +1,83 @@
+﻿@{
+    Model.Table_Model.SetGetpoint_Model model = new Model.Table_Model.SetGetpoint_Model();
+    if (Model != null)
+    {
+        model = Model;
+
+    }
+}
+<!-- 配置文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
+<script type="text/javascript">var txtIntroText = UE.getEditor('txtIntroText');</script>
+<script src="/Scripts/GetPoint.js"></script>
+<!DOCTYPE html>
+<!--页面主体-->
+<div class="page-container">
+    <!--左侧菜单-->
+    @Html.Partial("Sidebar", 13)
+    <!--左侧菜单 结束-->
+    <!--右侧主体内容-->
+    <div class="page-content">
+        <div class="page-breadcrumbs">
+            <ul class="breadcrumb"></ul>
+        </div>
+        <div class="page-body">
+            <div class="list-content">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">说明文本</label>
+                        <div class="col-lg-9">
+                            <script id="txtIntroText" name="content" type="text/plain" style="width: 100%; height: 500px;">
+                                @Html.Raw(model.IntroText)
+                            </script>
+                            <a class="pull-right margin-top-20 btn-blue btn-lg" onclick="operateGetPoint('IntroText')">保 存</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">单次签到奖励</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" style="display:inline-block;width:200px" type="text" placeholder="请输入单次签到奖励" id="txtSingleReward" value="@(model.SingleReward)" />
+                            <a class=" btn-blue btn-lg" onclick="operateGetPoint('SingleReward')">保 存</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">周期</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" style="display:inline-block;width:200px" type="text" placeholder="请输入周期" id="txtCycle" value="@(model.Cycle)" />
+                            <a class=" btn-blue btn-lg" onclick="operateGetPoint('Cycle')">保 存</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">周期奖励</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" style="display:inline-block;width:200px" type="text" placeholder="请输入周期奖励" id="txtCycleReward" value="@(model.CycleReward)" />
+                            <a class=" btn-blue btn-lg" onclick="operateGetPoint('CycleReward')">保 存</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">上传病史奖励</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" style="display:inline-block;width:200px" type="text" placeholder="请输入上传病史奖励" id="txtUploadReward" value="@(model.UploadReward)" />
+
+                            <a class=" btn-blue btn-lg" onclick="operateGetPoint('UploadReward')">保 存</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">加入会员奖励</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" style="display:inline-block;width:200px" type="text" placeholder="请输入加入会员奖励" id="txtJoinReward" value="@(model.JoinReward)" />
+                            <a class=" btn-blue btn-lg" onclick="operateGetPoint('JoinReward')">保 存</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+    });
+</script>

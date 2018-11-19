@@ -1,0 +1,239 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="MyHomeApp" ng-controller="MyHomeCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/Home/Home">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>我的</span>
+        <a class="block headerRightIcon width3_2x height3_2x lineHeight3_2x whiteTex" href="/MyHome/Setting">
+            <span class="iconfont font1x">&#xe688;</span>
+        </a>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <ul class="fl width100">
+                <li class="whiteBkg PLR1_1x PTB1x">
+                    <!--<div class="PT1_1x clearfix">
+                        <a class="fr ML0_8x" href=""><span class="iconfont">&#xe688;</span></a>
+                        <a class="fr" href=""><span class="iconfont">&#xe618;</span></a>
+                    </div>-->
+                    <div class=" clearfix flex-box">
+                        @*<div class="fl">
+        <p class="circle_pic lightgrayTex">
+            <!--<img src="pic/product_pic.png" />-->
+            <i class="iconfont font2_5x">&#xe65a;</i>
+        </p>
+    </div>*@
+                        <div class="fl width50" style="margin-left: 4%;">
+                            <p class="font1_2x">{{Name}}</p>
+                            <p class="MB0_4x grayTex">{{Mobile}}</p>
+                        </div>
+                        <div class="fl font09x width50 textR" style="margin-left: 4%;">
+                            <div ng-if="Level == 0">
+                                <a class="font085x MT0_4x" href="/OpenVIP/OpenVIP"><span class="vip_Tag KVip_Tag"><i class="iconfont font085x MR0_4x">&#xe66d;</i>开通会员</span></a>
+                            </div>
+                            <div ng-if="Level != 0">
+                                <p class="font085x MT0_4x"><span class="vip_Tag KVip_Tag"><i class="iconfont font085x MR0_4x">&#xe66d;</i>{{LevelName}}</span></p>
+                            </div>
+                                <p class=" MT0_8x grayTex"><span class="MR0_4x">{{Balance}}</span><span>个健康币</span></p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="fl width100 whiteBkg MT0_4x">
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/ExchangeVIP">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe66d;</span>
+                            <span class="fl">兑换会员</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/ConsultationList">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe603;</span>
+                            <span class="fl">我的咨询</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/MyFavDoctor">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe605;</span>
+                            <span class="fl">收藏的医生</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/MyOrderList_All?i=0">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe601;</span>
+                            <span class="fl">服务订单</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" ng-click="wait()">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe66d;</span>
+                            <span class="fl">会员俱乐部</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/MyCouponList">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe678;</span>
+                            <span class="fl">我的优惠券</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <div ng-if="Level != 0">
+                        <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/MyFamily">
+                            <div class="fl">
+                                <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe6af;</span>
+                                <span class="fl">我的家人</span>
+                            </div>
+                            <div class="textR fr">
+                                <span class="iconfont grayTex">&#xe60b;</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div ng-if="Level == 0">
+                        <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" ng-click="memberalert()">
+                            <div class="fl">
+                                <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe6af;</span>
+                                <span class="fl">我的家人</span>
+                            </div>
+                            <div class="textR fr">
+                                <span class="iconfont grayTex">&#xe60b;</span>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/AddressList">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe692;</span>
+                            <span class="fl">地址管理</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/NewsList/NewsList">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe8bf;</span>
+                            <span class="fl">我的消息</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="borderB clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/Submitadvise">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe615;</span>
+                            <span class="fl">反馈意见</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="fixBottom positionR whiteBkg PT0_8x PB0_4x borderT flex-box">
+        <a class="width33_3 flex-box flex-box-col" href="/Home/Home">
+            <span class="iconfont font1_4x">&#xe6a6;</span>
+            <span class="font085x">首页</span>
+        </a>
+        <a class="width33_3 flex-box flex-box-col" ng-click="wait()">
+            <span class="iconfont font1_4x">&#xe657;</span>
+            <span class="font085x">好物推荐</span>
+        </a>
+        <a class="width33_3 flex-box flex-box-col blueTex" href="/MyHome/MyHome">
+            <span class="iconfont font1_4x">&#xe61f;</span>
+            <span class="font085x">我的</span>
+        </a>
+    </div>
+</div>
+<script>
+    var app = angular.module('MyHomeApp', []);
+    app.controller('MyHomeCtrl', function ($scope, $http) {
+        // 测试
+        $http({
+            method: 'post',
+            url: '/MyHome/getUserInfo',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.Level = req.Data.LevelID; // 会员等级
+                $scope.Balance = req.Data.Balance; // 健康币余额
+                $scope.Mobile = req.Data.Mobile; // 签到状态
+                $scope.Name = req.Data.Name; // 是否会员
+                $scope.LevelName = req.Data.LevelName; // 是否会员
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+
+        $scope.memberalert = function () {
+            swal("非会员用户无法编辑家人");
+        }
+        $scope.TestFunction = function () {
+            // 测试
+            $http({
+                method: 'post',
+                url: '/MyHome/testFunction',
+            }).success(function (req) {
+                if (req.Code == "1") {
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+
+        $scope.wait = function () {
+            if ($scope.Level == 0) {
+                swal("非会员用户无法使用此功能");
+            } else {
+                window.location.href = "/MyHome/MyVipHome";
+            }
+        };
+    });
+</script>

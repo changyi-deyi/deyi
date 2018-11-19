@@ -1,0 +1,349 @@
+﻿
+@{
+}
+
+<script src="/assets/js/ng-file-upload/ng-file-upload.min.js"></script>
+<script src="/assets/js/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="CreateRecordListApp" ng-controller="CreateRecordListCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHeathRecordList/MyHeathRecordList?t={{tag}}">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>健康档案</span>
+    </div>
+    <div class="MT3x MB4_8x">
+        <div class="textL clearfix">
+            <ul class="fl borderBox width100 P1_1x MB0_4x whiteBkg">
+                <li class="MB0_8x">
+                    <p class="MB0_8x">选择所属人</p>
+                    <p class="clearfix">
+                        <a class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_blue borderNone" ng-class="{'btnBorder_blue':family_btnBorder_blue[0],'btnBorder_lightgray':family_btnBorder_lightgray[0]}" ng-click="ChangeFamilyMember(0,0)">自己<i class="iconfont ML0_4x">&#xe64b;</i></a>
+
+                        <isMember ng-if="isMember == 2">
+                            <a class="fl btnBorderSquare MR0_4x MB0_4x borderNone" ng-class="{'btnBorder_blue':family_btnBorder_blue[{{x.num}}],'btnBorder_lightgray':family_btnBorder_lightgray[{{x.num}}]}" ng-repeat="x in familyList" ng-click="ChangeFamilyMember(x.num,x.ID)">{{x.name}}<i class="iconfont ML0_4x">&#xe64b;</i></a>
+                            
+                                @*<isMember ng-if="isMember == 1">
+                                    <radio class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_blue borderNone"  name="family">自己<i class="iconfont ML0_4x">&#xe64b;</i></radio>
+                                </isMember>
+                                    <radio class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_blue borderNone" name="family">自己<i class="iconfont ML0_4x">&#xe64b;</i></radio>
+                                    <radio class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_lightgray borderNone"  name="family">爸爸<i class="iconfont ML0_4x">&#xe64b;</i></radio>
+                                    <radio class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_lightgray borderNone"  name="family">妈妈<i class="iconfont ML0_4x">&#xe64b;</i></radio>
+                                    <radio class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_lightgray borderNone"  name="family">爷爷<i class="iconfont ML0_4x">&#xe64b;</i></radio>
+                                    <radio class="fl btnBorderSquare MR0_4x MB0_4x btnBorder_lightgray borderNone"  name="family">奶奶<i class="iconfont ML0_4x">&#xe64b;</i></radio>*@
+                            
+
+                        </isMember>
+                    </p>
+                </li>
+                <li class="PB0_8x">
+                    <p class="MB0_8x">归类</p>
+                    <p class="clearfix">
+                        <a class="fl btnBorderSquare MR0_4x MB0_4x" ng-class="{'btnBorder_blue':btnBorder_blue1,'btnBorder_lightgray':btnBorder_lightgray1}" ng-click="ChangeType(1);">体检报告</a>
+                        <a class="fl btnBorderSquare MR0_4x MB0_4x" ng-class="{'btnBorder_blue':btnBorder_blue2,'btnBorder_lightgray':btnBorder_lightgray2}" ng-click="ChangeType(2);">医院病例</a>
+                        <a class="fl btnBorderSquare MR0_4x MB0_4x" ng-class="{'btnBorder_blue':btnBorder_blue3,'btnBorder_lightgray':btnBorder_lightgray3}" ng-click="ChangeType(3);">出院小结</a>
+                        <a class="fl btnBorderSquare MR0_4x MB0_4x" ng-class="{'btnBorder_blue':btnBorder_blue4,'btnBorder_lightgray':btnBorder_lightgray4}" ng-click="ChangeType(4);">影像片子</a>
+                        <a class="fl btnBorderSquare MR0_4x MB0_4x" ng-class="{'btnBorder_blue':btnBorder_blue5,'btnBorder_lightgray':btnBorder_lightgray5}" ng-click="ChangeType(5);">其他</a>
+                    </p>
+                </li>
+                <li class="PB0_8x">
+                    <p class="MB0_8x">上传图片</p>
+                    <div class="clearfix MR0_4x">
+                        <imaList ng-repeat="x in imaList">
+                            <a class="fl Square_5x_pic MR0_4x MB0_4x" ng-click="imaDelete(x.ID,x.ImageURL,x.FileName)">
+                                <img src="{{x.ImageURL}}" />
+                            </a>
+                        </imaList>
+                        <div>
+                            <button class="fl Square_5x_pic MR0_4x MB0_4x" type="file" ngf-select="uploadFiles($file, $invalidFiles)" accept="image/*" ngf-max-height="10000" ngf-max-size="10MB">
+                                <i class="iconfont font1_8x grayTex">&#xe604;</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="width100 font085x MT0_4x grayTex">
+                        <p>点击上传历次病例检查报告</p>
+                        <p>包括但不限于体检报告/医院病历/处方等</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 textC PT1_1x">
+                <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="CreateProfile()">建立档案</a>
+            </div>
+        </div>
+    </div>
+    <!--图片放大 弹层 开始-->
+    @*<div ng-show="mymodal1" class="maskBg div">
+        <div class="gpop-wapper gpop-wapper-pic">
+            <div class="gpop-content">
+                <div class="gpop-body box">
+                    <img ng-src="{{ImaPath}}" />
+                </div>
+                <div class="textC MT1x">
+                    <a class="btnBorderSquare btnBorder_red redBkg whiteTex" ng-click="showCheckList()"><i class="iconfont MR0_4x">&#xe661;</i>删除此图片</a>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div ng-show="mymodal1" class="maskBg div">
+        <div class="gpop-wapper gpop-wapper-pic" style="top: 0;margin-top: 0;">
+            <div class="gpop-content positionR">
+                <div class="positionA textC MT1x" style="left: 0;top: 1em;">
+                    <a class="btnBorderSquare btnBorder_gray grayBkg whiteTex" ng-click="showCheckList()"><i class="iconfont MR0_4x">&#xe661;</i>删除</a>
+                </div>
+                <div class="positionA MT1x" style="right: 0;top: 1em;">
+                    <a class="btnBorderSquare btnBorder_gray grayBkg whiteTex" ng-click="deleteCancel()"><i class="iconfont MR0_4x">&#xe64d;</i>关闭</a>
+                </div>
+                <div class="gpop-body" id="gpop-body" style="max-height: 100vh; overflow-y: scroll;">
+                    <img ng-src="{{ImaPath}}" />
+                </div>
+
+            </div>
+        </div>
+    </div> 
+    <!--弹层 结束-->
+    <!--删除档案提示 弹层 开始-->
+    <div ng-show="mymodal2" class="maskBg div">
+        <div class="gpop-wapper">
+            <div class="gpop-content">
+                <div class="gpop-body clearfix">
+                    <div class="whiteBkg width80 MLRAuto P1_6x textC borderRad05x">
+                        <p class="MB0_8x"><i class="iconfont font4x redTex">&#xe649;</i></p>
+                        <p>确定删除此档案信息吗？</p>
+                        <div class="textC MT2x">
+                            <a class="btnBorderSquare btnBorder_gray grayBkg whiteTex PTB0_4x MR0_8x" ng-click="deleteCancel()">取消</a>
+                            <a class="btnBorderSquare btnBorder_red redBkg whiteTex PTB0_4x" ng-click="deleteIma()">确 认</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--弹层 结束-->
+    <!--Loading 开始-->
+    <div class="maskBg" ng-if="loading">
+        <div class="gpop-wapper" style="background:none">
+            <div class="gpop-content">
+                <div class="gpop-body clearfix">
+                    <div class="width80 MLRAuto P1_6x textC">
+                        <div class="typing_loader"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Loading 结束-->
+</div>
+<script>
+    var app = angular.module('CreateRecordListApp', ['ngFileUpload']);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    app.controller('CreateRecordListCtrl', ['$scope', '$http', '$location', 'Upload', '$timeout', function ($scope, $http, $location, Upload, $timeout) {
+        $scope.tag = parseInt($location.search().t);
+        $scope.isMember = 1; // 非会员
+        $scope.Type = 1; // 归类
+        $scope.familycnt = 0;
+        $scope.mymodal1 = false;
+        $scope.mymodal2 = false;
+        $scope.familymenber = 0;
+        $scope.family_btnBorder_blue = {};
+        $scope.family_btnBorder_lightgray = {};
+        $scope.family_btnBorder_blue[0] = true;
+        $scope.family_btnBorder_lightgray[0] = false;
+        $scope.loading = false;
+        $scope.GetMark = function () {
+            $http({
+                method: 'post',
+                url: '/MyMark/getMark'
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.isMember = req.Data.IsMember; // 是否会员
+                    $scope.GetFamilyList();
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetFamilyList = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/getFamilyList'
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    var familyList = $scope.familyList = [];
+                    $scope.addFamilyList = function () {
+                        for (var i in req.Data) {
+                            $scope.familycnt = $scope.familycnt + 1;
+                            familyList.push({
+                                ID: req.Data[i].ID,
+                                num: $scope.familycnt,
+                                name: req.Data[i].Name // 同一家庭编号的会员名称
+                            });
+                        }
+
+                        for (var i = 1; i <= $scope.familycnt; i++) {
+                            $scope.family_btnBorder_blue[i] = false;
+                            $scope.family_btnBorder_lightgray[i] = true;
+                        };
+                    };
+                    $scope.addFamilyList();
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.ChangeFamilyMember = function (val,ID) {
+            for (var i = 0; i <= $scope.familycnt; i++) {
+                $scope.family_btnBorder_blue[i] = false;
+                $scope.family_btnBorder_lightgray[i] = true;
+            };
+            $scope.family_btnBorder_blue[val] = true;
+            $scope.family_btnBorder_lightgray[val] = false;
+            $scope.familymenber = ID;
+        };
+        $scope.ChangeType = function (val) {
+            $scope.Type = val;
+            $scope.btnBorder_blue1 = false;
+            $scope.btnBorder_blue2 = false;
+            $scope.btnBorder_blue3 = false;
+            $scope.btnBorder_blue4 = false;
+            $scope.btnBorder_blue5 = false;
+            $scope.btnBorder_lightgray1 = true;
+            $scope.btnBorder_lightgray2 = true;
+            $scope.btnBorder_lightgray3 = true;
+            $scope.btnBorder_lightgray4 = true;
+            $scope.btnBorder_lightgray5 = true;
+            switch (val) {
+                case 1:
+                    $scope.btnBorder_blue1 = true;
+                    $scope.btnBorder_lightgray1 = false;
+                    break;
+                case 2:
+                    $scope.btnBorder_blue2 = true;
+                    $scope.btnBorder_lightgray2 = false;
+                    break;
+                case 3:
+                    $scope.btnBorder_blue3 = true;
+                    $scope.btnBorder_lightgray3 = false;
+                    break;
+                case 4:
+                    $scope.btnBorder_blue4 = true;
+                    $scope.btnBorder_lightgray4 = false;
+                    break;
+                case 5:
+                    $scope.btnBorder_blue5 = true;
+                    $scope.btnBorder_lightgray5 = false;
+                    break;
+                default:
+                    break;
+            };
+        };
+        $scope.CreateProfile = function () {
+            $http({
+                method: 'post',
+                url: '/MyHeathRecordList/profileUpload',
+                params: {
+                    ID: $scope.familymenber,
+                    Type: $scope.Type,
+                    ProfileImage: imaList
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    swal({
+                        text: req.Message,
+                        confirmButtonText: "确定",
+                    }).then(() => {
+                        window.location.href = '/MyHeathRecordList/MyHeathRecordList?t=0';
+                    });
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        if ($scope.tag == 0) {
+            $scope.ChangeType(1);
+        } else {
+            $scope.ChangeType($scope.tag);
+        }
+        $scope.GetMark();
+
+        // 上传图片
+        var imaList = $scope.imaList = [];
+        $scope.deleteID;
+        $scope.deletePath;
+        $scope.deleteUrl;
+        $scope.uploadFiles = function (file, errFiles) {
+            $scope.f = file;
+            $scope.errFile = errFiles && errFiles[0];
+            if (file) {
+                $scope.loading = true;
+                file.upload = Upload.upload({
+                    url: '/Sample/FileUpload',
+                    data: { file: file, type: 2 }
+                })
+
+                file.upload.then(function (response) {
+                    $timeout(function () {
+                        file.result = response.data;
+                        var fileJson = angular.fromJson(response.data.Data)
+                        imaList.push({
+                            ID: 0,
+                            ImageURL: fileJson.Data.ImageURL, //图片路径
+                            FileName: fileJson.Data.FileName, //文件名
+                        });
+                        $scope.loading = false;
+                    });
+                }, function (response) {
+                    if (response.status > 0)
+                        $scope.errorMsg = response.status + ': ' + response.data
+                        $scope.loading = false;
+
+                }, function (evt) {
+                    file.progress = Math.min(100, parseInt(100.0 *
+                        evt.loaded / evt.total));
+                });
+            };
+        };
+        $scope.imaDelete = function (ID, path, name) {
+            $scope.ImaPath = path;
+            $scope.deleteID = ID;
+            $scope.deletePath = path;
+            $scope.deleteUrl = name;
+            $scope.mymodal1 = true;
+        };
+        $scope.showCheckList = function () {
+            $scope.mymodal2 = true;
+        };
+        $scope.deleteCancel = function () {
+            $scope.mymodal2 = false;
+            $scope.mymodal1 = false;
+        };
+        $scope.deleteCancel = function () {
+            $scope.mymodal2 = false;
+            $scope.mymodal1 = false;
+        };
+        $scope.deleteIma = function () {
+            for (var i in $scope.imaList) {
+                if ($scope.deletePath == $scope.imaList[i].Path) {
+                    $scope.imaList.splice(i, 1);
+                };
+            }
+            $scope.mymodal2 = false;
+            $scope.mymodal1 = false;
+        };
+
+    }]);
+</script>

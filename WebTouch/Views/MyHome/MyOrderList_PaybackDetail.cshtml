@@ -1,0 +1,146 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="PaybackApp" ng-controller="PaybackCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyOrderList_All?i={{tag}}">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>我的订单</span>
+    </div>
+    <div class="MT3x MB4_8x">
+        <!--订单列表-->
+        <ul class="">
+            <li class="whiteBkg MB0_4x">
+                <div class="P1_1x font09x">
+                    <div class="MB1x borderB">
+                        <div class="clearfix MB1x flex-box">
+                            <p class="fl width50 textL grayTex">
+                                {{CreatetTime}}
+                            </p>
+                            <p class="fr width50 textR" ng-if="OrderAmount >= 0">
+                                <span class="grayTex">总价</span>
+                                <span class="font1_2x fontBlod redTex">{{OrderAmount | number:2}}</span>
+                                <span class="grayTex">元</span>
+                            </p>
+                            <p class="fr width50 textR" ng-if="OrderAmount < 0">
+                                <span class="font1_2x fontBlod redTex">议价</span>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="MB0_8x">
+                        <span>{{ServiceName}}</span>
+                    </p>
+                    <div class="clearfix flex-box">
+                        <div class="fl textC">
+                            <div ng-if="DoctorImageURL == ''">
+                                <a class="grayTex MB0_8x circle_pic">
+                                    <img src="~/assets/img/heads.jpg" />
+                                </a>
+                            </div>
+                            <div ng-if="DoctorImageURL != ''">
+                                <a class="grayTex MB0_8x circle_pic">
+                                    <img src="{{DoctorImageURL}}" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="fl width80 flex-box flex-box-col flex-item-start" style="margin-left: 4%;">
+                            <p class="MB0_4x"><span class="fontBlod">{{DoctorName}}</span><span class="ML0_4x font09x">{{TitleName}}</span></p>
+                            <p class="font09x"><span>{{HospitalName}}</span><span class="ML0_4x">{{DepartmentName}}</span></p>
+                        </div>
+                    </div>
+                    <div class="textR borderT">
+                        <p class="MT1x">
+                            <paymentstatus ng-switch="PaymentStatus">
+                                <span class="greenTex" ng-switch-when="5"><i class="iconfont MR0_4x">&#xe64b;</i>退款成功</span>
+                                <span class="blueTex" ng-switch-when="4"><i class="iconfont MR0_4x">&#xe64e;</i>退款处理中</span>
+                                <span class="redTex" ng-switch-when="6"><i class="iconfont MR0_4x">&#xe64d;</i>退款失败</span>
+                                <span ng-switch-default></span>
+                            </paymentstatus>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!--退款理由-->
+        <ul class="">
+            <li class="whiteBkg">
+                <div class="P1_1x">
+                    <p class="font09x">
+                        <textarea class="borderBox width100 P0_8x border1 borderGray lineHeight1_5x" style="height: 10em;" placeholder="请输入你的退款理由" ng-model="reason"></textarea>
+                    </p>
+                </div>
+                <div class="textC PB1_1x">
+                    <a class="btnSmall dy_btn blueBkg whiteTex" ng-click="AfterService()">提交申请</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    var app = angular.module('PaybackApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    app.controller('PaybackCtrl', function ($scope, $http, $location) {
+        $scope.orderCode = $location.search().o; // 订单编号
+        $scope.tag = $location.search().i; // 我的订单Tab页记录
+        $scope.GetOrderDetail = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/getOrderDetail',
+                params: {
+                    OrderCode: $scope.orderCode
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.CreatetTime = req.Data.CreatetTime; // 订单的下单时间
+                    $scope.OrderAmount = req.Data.OrderAmount; // 实付金额
+                    $scope.ServiceName = req.Data.ServiceName; // 服务名称
+                    $scope.DoctorImageURL = req.Data.ImageURL; // 医生照片
+                    $scope.DoctorName = req.Data.DoctorName; // 医生姓名
+                    $scope.TitleName = req.Data.TitleName; // 医生职称
+                    $scope.HospitalName = req.Data.HospitalName; // 医生所属医院名称
+                    $scope.DepartmentName = req.Data.DepartmentName; // 医生所属科室
+                    $scope.PaymentStatus = req.Data.PaymentStatus; // 支付状态
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.AfterService = function () {
+            if (angular.isUndefined($scope.reason) || $scope.reason == "") {
+                swal("请输入咨询内容");
+                return;
+            }
+            $http({
+                method: 'post',
+                url: '/MyHome/afterService',
+                params: {
+                    OrderCode: $scope.orderCode,
+                    Reason: $scope.reason
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.GetOrderDetail();
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetOrderDetail();
+    });
+</script>

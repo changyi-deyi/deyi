@@ -1,0 +1,82 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="MyFamilyApp" ng-controller="MyFamilyCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyHome">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>我的家人</span>
+    </div>
+    <div class="MT3x MB4_8x">
+        <div class="textL clearfix">
+            <ul class="fl width100">
+                <fanilylist ng-repeat="x in familyList">
+                    <li class="whiteBkg PLR1_1x PTB1x MB0_4x">
+                        <a href="/MyHome/FamilyDetail?a=2&a1={{x.Name}}&a2={{x.Relationship}}&a3={{x.ID}}">
+                            <div class="clearfix flex-box">
+                                <div class="fl width50">
+                                    <p class="MB0_4x">{{x.Name}}</p>
+                                    <p>{{x.IDNumber}}</p>
+                                </div>
+                                <div class="fl font09x width50 textR">
+                                    <p class="grayTex"><span class="b_Tag">{{x.Relationship}}</span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </fanilylist>
+            </ul>
+            <ul class="fl width100 whiteBkg">
+                <li class="clearfix">
+                    <a class="fl borderBox width100 PLR1_1x PT1x PB0_8x" href="/MyHome/FamilyDetail?a=1">
+                        <div class="fl">
+                            <span class="fl iconfont font1_3x MR0_8x lightgrayTex">&#xe6af;</span>
+                            <span class="fl">添加家人</span>
+                        </div>
+                        <div class="textR fr">
+                            <span class="iconfont grayTex">&#xe60b;</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('MyFamilyApp', []);
+    app.controller('MyFamilyCtrl', function ($scope, $http) {
+        $scope.GetFamilyList = function () {
+            $http({
+                method: 'post',
+                url: '/MyHome/getFamilyList'
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    var familyList = $scope.familyList = [];
+                    $scope.addFamilyList = function () {
+                        for (var i in req.Data) {
+                            familyList.push({
+                                ID: req.Data[i].ID, 
+                                FamilyCode: req.Data[i].FamilyCode, 
+                                IDNumber: req.Data[i].IDNumber, 
+                                Name: req.Data[i].Name, 
+                                Relationship: req.Data[i].Relationship
+                            });
+                        }
+                    };
+                    $scope.addFamilyList();
+                } else if (req.Code == "2") {
+                } else {
+                    //swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetFamilyList();
+    });
+</script>

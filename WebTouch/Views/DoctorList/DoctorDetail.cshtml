@@ -1,0 +1,328 @@
+﻿
+@{
+}
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="DoctorApp" ng-controller="DoctorCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/DoctorList/DoctorList">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>三甲专家</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <!--医生详情-->
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x clearfix flex-box flex-item-start" href="ExchangeCoin.html">
+                        <div class="fl textC">
+                            <div ng-if="DetailImageURL == ''">
+                                <a class="grayTex MB0_8x circle_pic">
+                                    <img src="~/assets/img/heads.jpg" />
+                                </a>
+                            </div>
+                            <div ng-if="DetailImageURL != ''">
+                                <a class="grayTex MB0_8x circle_pic">
+                                    <img src="{{DetailImageURL}}" />
+                                </a>
+                            </div>
+                            <div ng-if="DetailFollowFlg == 0">
+                                <a class="b_Tag yellow_Tag font08x" ng-click="FollowOrCancel(0,DetailDoctorCode)">收藏医生</a>
+                            </div>
+                            <div ng-if="DetailFollowFlg == 1">
+                                <a class="b_Tag font08x" ng-click="FollowOrCancel(1,DetailDoctorCode)">已收藏</a>
+                            </div>
+                        </div>
+                        <div class="fl width80" style="margin-left: 4%;">
+                            <div class="MB0_8x">
+                                <p class="MB0_4x"><span class="fontBlod">{{DetailName}}</span><span class="ML0_4x font09x">{{DetailTitleName}}</span></p>
+                                <p class="font09x"><span>{{DetailHospitalName}}</span><span class="ML0_4x">{{DetailDepartmentName}}</span></p>
+                            </div>
+                            @*<div class="font08x">
+                                <p><span class="inlineB" style="width: 4em;">好评率</span><span class="grayTex">{{DetailPoints}}%</span></p>
+                                <p><span class="inlineB" style="width: 4em;">接诊量</span><span class="grayTex">{{DetailServiceTimes}}</span></p>
+                                <div class="MT0_4x clearfix flex-box flex-justifyC-start flex-item-start">
+                                    <p class="inlineB fl" style="width: 4em;"><span>专治</span></p>
+                                    <p class="inlineB fl width100 font09x clearfix">
+                                        <drtags ng-repeat="x in tags">
+                                            <span class="fl s_Tag">{{x.tagName}}</span>
+                                        </drtags>
+                                    </p>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </li>
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="clearfix MB0_8x">
+                            <span class="fl textL">
+                                提供服务
+                            </span>
+                        </p>
+                        <drservice ng-repeat="y in doctorService">
+                            <p class="clearfix MB1x flex-box flex-item-center">
+                                <a class="width80 textL" href="/ServiceList/ServiceDetail?s={{y.serviceCode}}">
+                                    <span class="fontBlod">{{y.name}}</span><i class="iconfont ML0_4x">&#xe60b;</i><br />
+                                    <isBargain ng-if="y.isBargain == 1">
+                                        <span class="font08x">
+                                            <em class="">议价</em>
+                                        </span>
+                                    </isBargain>
+                                    <discountFlg ng-if="y.isBargain == 2 && y.discountFlg">
+                                        <span class="font08x LinkThroughLine">
+                                            <em class="">原价</em>
+                                            <em class="">{{y.truePrice}}</em>
+                                        </span>
+                                        <span class="font08x ML0_8x">
+                                            <em class="">会员价</em>
+                                            <em class="font1_5x fontBlod redTex">{{y.discountPrice}}</em>
+                                        </span>
+                                    </discountFlg>
+                                    <discountFlg ng-if="y.isBargain == 2 && !y.discountFlg">
+                                        <span class="font08x">
+                                            <em class="">原价</em>
+                                            <em class="">{{y.truePrice}}</em>
+                                        </span>
+                                    </discountFlg>
+                                </a>
+                                <a class="width20 textR font1_1x" href="/DoctorList/DoctorFaceService?c={{DoctorCode}}&s={{y.serviceCode}}&n={{y.name}}&p1={{y.isBargain}}&p2={{y.discountFlg}}&p3={{y.truePrice}}&p4={{y.discountPrice}}">
+                                    <em class="redTex font09x">购买</em>
+                                </a>
+                            </p>
+                        </drservice>
+                    </div>
+                    <div class="PLR1_1x PB1_1x font09x redTex">
+                        <ismember ng-if="!IsMember">
+                            <a class="s_Tag red_Tag" href="/OpenVIP/OpenVIP">开通会员享受折扣价格</a>
+                        </ismember>
+                    </div>
+                </li>
+            </ul>
+            <!--问诊评价-->
+            <drcomment ng-repeat="z in doctorComment">
+                <ul class="fl width100 whiteBkg">
+                    <li class="">
+                        <div class="P1_1x">
+                            <p class="clearfix MB0_8x">
+                                <span class="fl textL">问诊评价({{commentCnt}})</span><br />
+                            </p>
+                            <p class="clearfix">
+                                <span class="fl textL">患者对医生的评价：</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="P1_1x">
+                            <div class="clearfix MB0_4x">
+                                <div class="fl textL">
+                                    <span class="">{{z.serviceName}}</span>
+                                </div>
+                                <span class="fr textR yellowTex">
+                                    <drpoint ng-if="z.point <= 1">
+                                        <i class="iconfont">&#xe609;</i>
+                                    </drpoint>
+                                    <drpoint ng-if="z.point > 1 && z.point <= 2">
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                    </drpoint>
+                                    <drpoint ng-if="z.point > 2 && z.point <= 3">
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                    </drpoint>
+                                    <drpoint ng-if="z.point > 3 && z.point <= 4">
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                    </drpoint>
+                                    <drpoint ng-if="z.point > 4">
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                        <i class="iconfont">&#xe609;</i>
+                                    </drpoint>
+                                </span>
+                            </div>
+                            <div class="clearfix MB1x">
+                                <div class="fl textL grayTex">
+                                    <span class="">{{z.name | textLengthSet:1:'***'}}</span>
+                                </div>
+                                <span class="fr textR grayTex">
+                                    {{z.createTime}}
+                                </span>
+                            </div>
+                            <div>
+                                {{z.comment}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </drcomment>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('DoctorApp', []);
+    app.config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false,
+            rewriteLinks: false
+        });
+    }]);
+    //过滤器
+    app.filter('textLengthSet', function () {
+        return function (value, max, tail) {
+            if (!value) return '';
+
+            max = parseInt(max, 10);
+            if (!max) return value;
+            if (value.length <= max) return value;
+
+            value = value.substr(0, max);
+            return value + (tail || '***');//'...'可以换成其它文字
+        };
+    });
+    app.controller('DoctorCtrl', function ($scope, $http, $location, $filter) {
+        $scope.DoctorCode = $location.search().c;
+        // 医生详情
+        $http({
+            method: 'post',
+            url: '/DoctorList/getDoctorDetail',
+            params: {
+                DoctorCode: $scope.DoctorCode
+            }
+        }).success(function (req) {
+            if (req.Code == "1") {
+                // 医生详情
+                $scope.DetailDoctorCode = req.Data.DoctorInfo.DoctorCode; // 医生基本信息表.医生编号
+                $scope.DetailImageURL = req.Data.DoctorInfo.ImageURL; //医生基本信息表.照片地址
+                $scope.DetailFollowFlg = req.Data.DoctorInfo.followFlg; //医生收藏表
+                $scope.DetailName = req.Data.DoctorInfo.Name; //医生基本信息表.姓名
+                $scope.DetailTitleName = req.Data.DoctorInfo.TitleName; //职称信息表.职称名称
+                $scope.DetailHospitalName = req.Data.DoctorInfo.HospitalName; //医院信息表.医院名称
+                $scope.DetailDepartmentName = req.Data.DoctorInfo.DepartmentName; //科室信息表.科室名称
+                $scope.DetailPoints = req.Data.DoctorInfo.Points * 100; //医生基本信息表.好评率
+                $scope.DetailServiceTimes = req.Data.DoctorInfo.ServiceTimes; //医生基本信息表.咨询量
+                var tags = $scope.tags = [];
+                $scope.addTags = function () {
+                    for (var i in req.Data.DoctorInfo.tag) {
+                        tags.push({
+                            tagName: req.Data.DoctorInfo.tag[i] //标签信息表.标签名称(医生标签表.标签ID关联)
+                        });
+                    }
+                };
+                $scope.addTags();
+                // 服务列表
+                var doctorService = $scope.doctorService = [];
+                $scope.addDoctorService = function () {
+                    for (var j in req.Data.DoctorService) {
+                        doctorService.push({
+                            serviceCode: req.Data.DoctorService[j].ServiceCode, // 医生服务表.服务编号
+                            name: req.Data.DoctorService[j].Name, // 服务信息表.服务名称
+                            isBargain: req.Data.DoctorService[j].IsBargain, // 医生服务表.是否议价
+                            truePrice: req.Data.DoctorService[j].trueprice, // 原价
+                            discountFlg: req.Data.DoctorService[j].DiscountFlg, // 有无折扣
+                            discountPrice: req.Data.DoctorService[j].DiscountPrice // 会员价
+                        });
+                    }
+                };
+                $scope.addDoctorService();
+                // 问诊评价
+                var doctorComment = $scope.doctorComment = [];
+                $scope.commentCnt = 0;
+                $scope.addDoctorComment = function () {
+                    for (var n in req.Data.DoctorComment) {
+                        $scope.commentCnt = $scope.commentCnt + 1;
+                        doctorComment.push({
+                            //TODO:名字打码
+                            name: req.Data.DoctorComment[n].CustomerName, // 客户基本信息表.姓名(服务评价表.客户编号关联)
+                            serviceName: req.Data.DoctorComment[n].ServiceName, // 服务名称
+                            point: req.Data.DoctorComment[n].Point, // 服务评价表.评分
+                            createTime: req.Data.DoctorComment[n].CreatetTimeForView, // 服务评价表.创建日期(评价日期)
+                            updateTime: req.Data.DoctorComment[n].UpdateTimeForView, // 服务评价表.更新日期(评价日期)
+                            comment: req.Data.DoctorComment[n].Comment // 服务评价表.评价
+                        });
+                    }
+                };
+                $scope.addDoctorComment();
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+        // 收藏 取消收藏
+        $scope.FollowOrCancel = function (fcflg, id) {
+            $http({
+                method: 'post',
+                url: '/DoctorList/followOrCancel',
+                params: {
+                    DoctorCode: id
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    // 医生详情
+                    $http({
+                        method: 'post',
+                        url: '/DoctorList/getDoctorDetail',
+                        params: {
+                            DoctorCode: $scope.DoctorCode
+                        }
+                    }).success(function (req) {
+                        if (req.Code == "1") {
+                            $scope.DetailDoctorCode = req.Data.DoctorInfo.DoctorCode; // 医生基本信息表.医生编号
+                            $scope.DetailImageURL = req.Data.DoctorInfo.ImageURL; //医生基本信息表.照片地址
+                            $scope.DetailFollowFlg = req.Data.DoctorInfo.followFlg; //医生收藏表
+                            $scope.DetailName = req.Data.DoctorInfo.Name; //医生基本信息表.姓名
+                            $scope.DetailTitleName = req.Data.DoctorInfo.TitleName; //职称信息表.职称名称
+                            $scope.DetailHospitalName = req.Data.DoctorInfo.HospitalName; //医院信息表.医院名称
+                            $scope.DetailDepartmentName = req.Data.DoctorInfo.DepartmentName; //科室信息表.科室名称
+                            $scope.DetailPoints = req.Data.DoctorInfo.Points * 100; //医生基本信息表.好评率
+                            $scope.DetailServiceTimes = req.Data.DoctorInfo.ServiceTimes; //医生基本信息表.咨询量
+                            var tags = $scope.tags = [];
+                            $scope.addTags = function () {
+                                for (var i in req.Data.DoctorInfo.tag) {
+                                    tags.push({
+                                        tagName: req.Data.DoctorInfo.tag[i] //标签信息表.标签名称(医生标签表.标签ID关联)
+                                    });
+                                }
+                            };
+                            $scope.addTags();
+                        } else {
+                            swal(req.Message);
+                        }
+                    }).error(function () {
+                        swal(req.Code);
+                        swal("网络繁忙,请稍后再试！");
+                    });
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        // 是否会员
+        $scope.IsMember = false;
+        $http({
+            method: 'post',
+            url: '/DoctorList/getMember',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.IsMember = req.Data;
+            } else {
+                swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+    });
+</script>

@@ -1,0 +1,259 @@
+﻿
+@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<script src="https://cdn.staticfile.org/angular.js/1.5.0-beta.0/angular-sanitize.min.js"></script>
+<div ng-app="MyCouponListApp" ng-controller="MyCouponListCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/MyHome/MyHome">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>我的优惠券</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="borderBox width100 whiteBkg textC borderB PT0_4x PLR1_25x font09x flex-box ">
+            <a class="width50 PTB0_8x blueTex">
+                <span class="inlineB">可用优惠券</span>
+            </a>
+            <a class="width50 PTB0_8x" href="/MyHome/ExchangeCoupon">
+                <span>兑换优惠券</span>
+            </a>
+        </div>
+        <div class="textL clearfix">
+            <!--优惠券列表-->
+            <ul class="P1_1x">
+                <coupon ng-repeat="x in couponList">
+                    <!-- 现金券 -->
+                    <coupontype ng-if="x.type == 1">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_8x textC borderDashedR ">
+                                    <p><span class="grayTex">￥</span><span class="font2x fontBlod blueTex">{{x.rule[1]}}</span></p>
+                                </div>
+                                <div class="fr borderBox width70 PTB1x PLR0_8x">
+                                    <p class=" MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex font085x flex-box flex-center">
+                                        <validType ng-if="x.validType == 1">
+                                            <!-- 固定期限 -->
+                                            <span>{{x.validRUle}}</span>
+                                        </validType>
+                                        <validType ng-if="x.validType == 2">
+                                            <!-- 领取开始计算 -->
+                                            <span>领取后{{x.validRUle}}天内有效</span>
+                                        </validType>
+                                        @*<a class="fr btnBorderSquare PLR0_4x" href=""><span class="blueTex">去使用</span></a>*@
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                    <!-- 满减券 -->
+                    <coupontype ng-if="x.type == 2">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_4x textC borderDashedR">
+                                    <p><span class="grayTex MR0_4x">满</span><span class="font2x fontBlod blueTex">{{x.rule[0]}}</span></p>
+                                    <p><span class="grayTex MR0_4x">减</span><span class="font2x fontBlod blueTex">{{x.rule[1]}}</span></p>
+                                </div>
+                                <div class="fr borderBox width70 PTB1x PLR0_8x">
+                                    <p class=" MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex font085x flex-box flex-center">
+                                        <validType ng-if="x.validType == 1">
+                                            <!-- 固定期限 -->
+                                            <span>{{x.validRUle}}</span>
+                                        </validType>
+                                        <validType ng-if="x.validType == 2">
+                                            <!-- 领取开始计算 -->
+                                            <span>领取后{{x.validRUle}}天内有效</span>
+                                        </validType>
+                                        @*<a class="fr btnBorderSquare PLR0_4x" href=""><span class="blueTex">去使用</span></a>*@
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                    <!-- 折扣券 -->
+                    <coupontype ng-if="x.type == 3">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_4x textC borderDashedR">
+                                    <p><span class="font2x fontBlod blueTex">{{x.rule[0] * 10}}</span><span class="grayTex">折</span></p>
+                                </div>
+                                <div class="fr borderBox width70 P1x">
+                                    <p class=" MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex MB1x font085x">
+                                        <validType ng-if="x.validType == 1">
+                                            <!-- 固定期限 -->
+                                            <span>{{x.validRUle}}</span>
+                                        </validType>
+                                        <validType ng-if="x.validType == 2">
+                                            <!-- 领取开始计算 -->
+                                            <span>领取后{{x.validRUle}}天内有效</span>
+                                        </validType>
+                                        @*<a class="fr btnBorderSquare PLR0_4x" href=""><span class="blueTex">去使用</span></a>*@
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                    <!-- 兑换券 -->
+                    <coupontype ng-if="x.type == 4">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_4x textC borderDashedR">
+                                    <p><span class="font1_3x fontBlod blueTex">兑换券</span></p>
+                                </div>
+                                <div class="fr borderBox width70 P1x">
+                                    <p class="grayTex MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex font085x flex-box flex-center">
+                                        <validType ng-if="x.validType == 1">
+                                            <!-- 固定期限 -->
+                                            <span>{{x.validRUle}}</span>
+                                        </validType>
+                                        <validType ng-if="x.validType == 2">
+                                            <!-- 领取开始计算 -->
+                                            <span>领取后{{x.validRUle}}天内有效</span>
+                                        </validType>
+                                        @*<a class="fr btnBorderSquare PLR0_4x" href=""><span class="blueTex">去使用</span></a>*@
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                </coupon>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('MyCouponListApp', ['ngSanitize']);
+    //html标签转义
+    app.filter('trustHtml', function ($sce) {
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        }
+    });
+    app.filter('ntobr', function () {
+        var filter = function (input) {
+            return input.replace(/\n/g, "<\/br>").replace(/ /g, "&nbsp;");
+        };
+        return filter;
+    });
+    //将字符串分割成数组
+    app.filter("toArray", function () {
+        return function (data, separator) {
+            if (data) {
+                if (!separator) {
+                    separator = ",";//默认逗号分割
+                }
+                return data.split(separator);
+            } else {
+                return [];//得到的结果类型始终为数组类型
+            }
+        }
+    });
+    app.controller('MyCouponListCtrl', function ($scope, $http, $filter) {
+        $scope.count = 0;
+        $scope.Digest_show_hide_val = {};
+        // 我的优惠券
+        $http({
+            method: 'post',
+            url: '/MyHome/getMyCouponList',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                var couponList = $scope.couponList = [];
+                $scope.addCouponList = function () {
+                    for (var i in req.Data) {
+                        couponList.push({
+                            type: req.Data[i].Type, // 优惠券属性表.类型(1：现金券 2：满减券 3：打折券 4：兑换券)
+                            rule: $filter('toArray')(req.Data[i].Rule), // 优惠券属性表.规则
+                            name: req.Data[i].Name, // 优惠券属性表.名称
+                            validType: req.Data[i].ValidType, // 优惠券属性表.有效期类型(1：固定期限 2：领取开始计算)
+                            validRUle: req.Data[i].ValidRUle, // 客户优惠券表.获得日期
+                            detail: req.Data[i].Detail, // 优惠券属性表.详情
+                            count: $scope.count
+                        });
+                        $scope.Digest_show_hide_val[$scope.count] = false;
+                        $scope.count = $scope.count + 1;
+                    }
+                };
+                $scope.addCouponList();
+            } else {
+                //swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+        });
+
+        $scope.Digest_show = function (count) {
+            $scope.Digest_show_hide_val[count] = !$scope.Digest_show_hide_val[count];
+        }
+    });
+</script>

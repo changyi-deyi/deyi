@@ -1,0 +1,55 @@
+﻿@{
+    WebManager.Model.ChannelDetail_Model view = new WebManager.Model.ChannelDetail_Model();
+    Model.Manage_Model.Channel_Model model = new Model.Manage_Model.Channel_Model();
+    if (Model != null)
+    {
+        view = Model;
+        if (view.Data != null)
+        {
+            model = view.Data;
+        }
+
+    }
+}
+<script src="/Scripts/Channel.js"></script>
+<!DOCTYPE html>
+<!--页面主体-->
+<div class="page-container">
+    <!--左侧菜单-->
+    @Html.Partial("Sidebar", 10)
+    <!--左侧菜单 结束-->
+    <!--右侧主体内容-->
+    <div class="page-content">
+        <div class="page-breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/Setting/ChannelList">渠道</a>
+                </li>
+                <li class="active">详情</li>
+            </ul>
+        </div>
+        <div class="page-body">
+            <div class="list-content">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">渠道名称</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" type="text" placeholder="请输入渠道名称" id="txtChannelName" value="@(model.ChannelName)" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-7 text-right">
+                            <a class=" btn-info btn-lg" onclick=" window.location.href=document.referrer;">返 回</a>
+                            <a class=" btn-blue btn-lg" onclick="operateChannel(@(view.ChannelID))">保 存</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+    });
+</script>

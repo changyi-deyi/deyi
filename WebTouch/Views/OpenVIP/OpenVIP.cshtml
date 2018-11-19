@@ -1,0 +1,201 @@
+﻿
+@{
+}
+<style>
+    /* 显示一行文本 */
+    .cus-overflow-line-1 {
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="OpenVIPApp" ng-controller="OpenVIPCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlmineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/Home/Home">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>开通会员</span>
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <!--医生详情-->
+            <ul class="fl width100">
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x">
+                        <p class="clearfix MB1_1x">
+                            <span class="fl textL">
+                                提供服务
+                            </span>
+                        </p>
+                        <div ng-repeat="x in levellist">
+                            <div ng-if="x.levelID == CustomerLevelID">
+                                <a class="clearfix MB1x flex-box">
+                                    <div class="fl MR0_8x KVip_Bkg">
+                                        <div ng-if="x.iconurl == ''">
+                                            <i class="iconfont font1_8x">&#xe66d;</i>
+                                        </div>
+                                        <div ng-if="x.iconurl != ''">
+                                            <img ng-src="{{x.iconurl}}" style ="width:5em"/>
+                                        </div>
+                                    </div>
+                                    <div class="fl width55 textL">
+                                        <span class="fontBlod">{{x.name}}</span><br />
+                                        <span class="font08x grayTex cus-overflow-line-1">{{x.summary}}</span>
+                                    </div>
+                                    <span class="fr width45 textR redTex ">您已是{{x.name}}</span>
+                                </a>
+                            </div>
+                            <div ng-if="x.levelID > CustomerLevelID">
+                                <a class="clearfix MB1x flex-box" href="/OpenVIP/OpenVIPConfirm?l={{x.levelID}}">
+                                    <div class="fl MR0_8x KVip_Bkg">
+                                        <div ng-if="x.iconurl == ''">
+                                            <i class="iconfont font1_8x">&#xe66d;</i>
+                                        </div>
+                                        <div ng-if="x.iconurl != ''">
+                                            <img ng-src="{{x.iconurl}}" style ="width:5em"/>
+                                        </div>
+                                    </div>
+                                    <div class="fl width55 textL">
+                                        <span class="fontBlod">{{x.name}}</span><i class="iconfont ML0_4x">&#xe60b;</i><br />
+                                        <span class="font08x grayTex cus-overflow-line-1" ng-bind-html="x.summary | ntobr | trustHtml"></span>
+                                    </div>
+                                    <span class="fr width45 textR redTex ">
+                                        <i class="font1_5x fontBlod">{{x.originPrice}}</i>
+                                        <i class="font09x">元/{{x.termYears}}年</i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--问诊评价-->
+            <ul class="fl width100 whiteBkg">
+                <li class="">
+                    <div class="P1_1x">
+                        <p class="clearfix MB0_8x">
+                            <span class="fl textL">会员权益</span><br />
+                        </p>
+                        <img src="~/assets/img/vipright.png" />
+                        @*<p class="clearfix MB0_8x">
+                            <table class="width100 font085x textC" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr class="fontBlod yellow_Tag">
+                                        <th>权益</th>
+                                        <th>金卡会员</th>
+                                        <th>铂金会员</th>
+                                        <th>钻石会员</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="grayTex">
+                                    <tr><td class="yellow_Tag">面诊服务</td><td>6.7折</td><td>6.7折</td><td>6.7折</td></tr>
+                                    <tr><td class="yellow_Tag">就医直通车</td><td>8折</td><td>6折</td><td>6折</td></tr>
+                                    <tr><td class="yellow_Tag">专家出诊</td><td></td><td></td><td></td></tr>
+                                    <tr><td class="yellow_Tag">在线问诊</td><td>8折</td><td>6折</td><td>5折</td></tr>
+                                    <tr><td class="yellow_Tag">其他产品</td><td>8折</td><td>6折</td><td>5折</td></tr>
+                                    <tr><td class="yellow_Tag">生日福利</td><td>神秘礼物</td><td>神秘礼物</td><td>神秘礼物</td></tr>
+                                    <tr><td class="yellow_Tag">免费得</td><td>基因</td><td>体检卡</td><td>保险</td></tr>
+                                </tbody>
+
+                            </table>
+                        </p>*@
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('OpenVIPApp', []);
+
+    //html标签转义
+    app.filter('trustHtml', function ($sce) {
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        }
+    });
+    app.filter('ntobr', function () {
+        var filter = function (input) {
+            return input.replace(/\n/g, "<\/br>").replace(/\s+([^<>]+)(?=<)/g, function (match) { return match.replace(/\s+/g, '&nbsp;'); });
+        };
+        return filter;
+    });
+    app.controller('OpenVIPCtrl', function ($scope, $http) {
+        $scope.GetLevel = function () {
+            // 会员等级表
+            $http({
+                method: 'post',
+                url: '/OpenVIP/getLevel',
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    var levellist = $scope.levellist = [];
+                    $scope.addLevel = function () {
+                        for (var i in req.Data) {
+                            levellist.push({
+                                levelID: req.Data[i].LevelID, // 等级ID
+                                iconurl: req.Data[i].IconURL, // 图标URL
+                                name: req.Data[i].Name, // 名称
+                                originPrice: req.Data[i].OriginPrice, // 原价
+                                termYears: req.Data[i].TermYears, // 期限(年)
+                                summary: req.Data[i].Summary, // 简介
+                            });
+                        }
+                    };
+                    $scope.addLevel();
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetMark = function () {
+            // 客户基本信息表
+            $http({
+                method: 'post',
+                url: '/MyMark/getMark',
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.IsMember = req.Data.IsMember; // 是否会员
+                    $scope.CustomerCode = req.Data.CustomerCode; // 客户编号
+                    if (req.Data.IsMember == 2) {
+                        $scope.GetMember();
+                    }
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetMember = function () {
+            // 取得会员信息
+            $http({
+                method: 'post',
+                url: '/MyMark/getMember',
+                params: {
+                    CustomerCode: $scope.CustomerCode
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.CustomerLevelID = req.Data.LevelID; // 会员级别ID
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.CustomerLevelID = 0;
+        $scope.GetLevel();
+        $scope.GetMark();
+    });
+</script>

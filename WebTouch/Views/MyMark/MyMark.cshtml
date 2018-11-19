@@ -1,0 +1,405 @@
+﻿@{
+}
+
+<link rel="stylesheet" type="text/css" href="/assets/css/sweetalert.css">
+<script src="/assets/js/sweetalert.min.js"></script>
+<div ng-app="MyMarkApp" ng-controller="MyMarkCtrl">
+    <div class="header positionR blueBkg whiteTex">
+        <a class="inlineB headerLeftIcon width3_2x height3_2x lineHeight3_2x blackTex" href="/Home/Home">
+            <span class="iconfont font1x">&#xe60a;</span>
+        </a>
+        <span>签到</span>
+        <!--<a class="block headerRightIcon width3_2x height3_2x lineHeight3_2x whiteTex" href="AddAddress.html">
+            <span class="iconfont">&#xe615;</span>
+        </a>-->
+    </div>
+    <div class="MT3x MB4_2x">
+        <div class="textL clearfix">
+            <!--签到-->
+            <ul class="fl width100">
+                <li class="whiteBkg borderB">
+                    <div class="P1_1x positionR textC">
+                        <div ng-if="SignStatus == 1">
+                            <a class="MT0_8x MB0_8x circle_big_pic blueBkg whiteTex" ng-click="SignIn()">
+                                <span>点击签到</span>
+                            </a>
+                        </div>
+                        <div ng-if="SignStatus == 2">
+                            <div class="MT0_8x MB0_8x circle_big_pic grayBkg whiteTex">
+                                <span>已签到</span>
+                            </div>
+                        </div>
+                        <p class="textC">
+                            <span class=" font085x grayTex">当前持有</span>
+                            <span class="font3x fontBlod blueTex">{{Balance}}</span>
+                            <span class=" font085x grayTex MR1x">健康币</span>
+                        </p>
+                        <p class="positionA grayTex font09x" style="padding: 0.3em 1em 0.4em 0.6em; top: 1em;right: 0.5em;">
+                            已连续签到<span class="PLR0_4x blueTex">{{ContinuousDate}}</span>天
+                        </p>
+                    </div>
+                </li>
+                <li class="whiteBkg MB0_4x">
+                    <div class="P1_1x clearfix">
+                        <div ng-if="IsMember == 1">
+                            <p class="fl">
+                                您当前不是会员
+                            </p>
+                            <p class="fr">
+                                <a class="PTB0_4x PLR1_1x blueBkg whiteTex font085x borderRad05x" href="/OpenVIP/OpenVIP"><i class="iconfont MR0_8x font085x">&#xe66d;</i>开通会员</a>
+                            </p>
+                        </div>
+                        <div ng-if="IsMember == 2">
+                            <p class="fl">
+                                您当前会员等级:{{LevelID}}
+                            </p>
+                            <div ng-if="LevelID != NextLevelID && NextLevelID != 0 ">
+                                <p class="fr">
+                                    <a class="PTB0_4x PLR1_1x blueBkg whiteTex font085x borderRad05x" href="/OpenVIP/OpenVIP"><i class="iconfont MR0_8x font085x">&#xe66d;</i>升级会员</a>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="whiteBkg">
+                    <div class="P1_1x">
+                        <p class="MB0_4x">
+                            <span class="textL">获取健康币方法</span>
+                        </p>
+                        <div class="font09x lineHeight1_5x">
+                            <div ng-bind-html="RuleText | ntobr | trustHtml"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="fl width100 borderBox P0_8x" ng-if="flg == 0">
+                健康币兑换
+            </div>
+            <!--健康币兑换-->
+            <ul class="fl width100">
+                <coupon ng-repeat="x in couponList">
+                    <!-- 现金券 -->
+                    <coupontype ng-if="x.type == 1">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_8x textC borderDashedR ">
+                                    <p><span class="grayTex">￥</span><span class="font2x fontBlod blueTex">{{x.rule[1]}}</span></p>
+                                </div>
+                                <div class="fr borderBox width70 PTB1x PLR0_8x">
+                                    <p class=" MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex font085x flex-box flex-center">
+                                        <span>{{x.exchangeAmount}}健康币</span>
+                                        <a class="fr btnBorderSquare PLR0_4x" ng-click="BalanceExchange(x.id, x.exchangeAmount)"><span class="blueTex">兑 换</span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                    <!-- 满减券 -->
+                    <coupontype ng-if="x.type == 2">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_4x textC borderDashedR">
+                                    <p><span class="grayTex MR0_4x">满</span><span class="font2x fontBlod blueTex">{{x.rule[0]}}</span></p>
+                                    <p><span class="grayTex MR0_4x">减</span><span class="font2x fontBlod blueTex">{{x.rule[1]}}</span></p>
+                                </div>
+                                <div class="fr borderBox width70 PTB1x PLR0_8x">
+                                    <p class=" MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex font085x flex-box flex-center">
+                                        <span>{{x.exchangeAmount}}健康币</span>
+                                        <a class="fr btnBorderSquare PLR0_4x" ng-click="BalanceExchange(x.id, x.exchangeAmount)"><span class="blueTex">兑 换</span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                    <!-- 打折券 -->
+                    <coupontype ng-if="x.type == 3">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_4x textC borderDashedR">
+                                    <p><span class="font2x fontBlod blueTex">{{x.rule[0] * 10}}</span><span class="grayTex">折</span></p>
+                                </div>
+                                <div class="fr borderBox width70 P1x">
+                                    <p class=" MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex MB1x font085x">
+                                        <span>{{x.exchangeAmount}}健康币</span>
+                                        <a class="fr btnBorderSquare PLR0_4x" ng-click="BalanceExchange(x.id, x.exchangeAmount)"><span class="blueTex">兑 换</span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                    <!-- 兑换券 -->
+                    <coupontype ng-if="x.type == 4">
+                        <li class="whiteBkg MB0_8x font09x border1 borderRad05x borderlightGray">
+                            <div class="clearfix flex-box">
+                                <div class="fl borderBox width30 P0_4x textC borderDashedR">
+                                    <p><span class="font1_3x fontBlod blueTex">兑换券</span></p>
+                                </div>
+                                <div class="fr borderBox width70 P1x">
+                                    <p class="grayTex MB0_8x"><span>{{x.name}}</span></p>
+                                    <p class="grayTex font085x flex-box flex-center">
+                                        <span>{{x.exchangeAmount}}健康币</span>
+                                        <a class="fr btnBorderSquare PLR0_4x" ng-click="BalanceExchange(x.id, x.exchangeAmount)"><span class="blueTex">兑 换</span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="P1x borderDashedT font09x">
+                                <a class="clearfix flex-box grayTex">
+                                    <div class="fl width85 textL">
+                                        <span>点击查看详情</span>
+                                    </div>
+                                    <div class="fr width15 textR">
+                                        <span class="iconfont" ng-click="Digest_show(x.count)">&#xe8c0;</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <!--下拉显示的优惠券详情简介-->
+                            <div class="P1x borderDashedT font09x" ng-if="Digest_show_hide_val[x.count]">
+                                <div class="lineHeight1_5x">
+                                    <div ng-bind-html="x.detail | ntobr | trustHtml"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </coupontype>
+                </coupon>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var app = angular.module('MyMarkApp', []);
+    //html标签转义
+    app.filter('trustHtml', function ($sce) {
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        }
+    });
+    app.filter('ntobr', function () {
+        var filter = function (input) {
+            return input.replace(/\n/g, "<\/br>").replace(/ /g, "&nbsp;");
+        };
+        return filter;
+    });
+    //将字符串分割成数组
+    app.filter("toArray", function () {
+        return function (data, separator) {
+            if (data) {
+                if (!separator) {
+                    separator = ",";//默认逗号分割
+                }
+                return data.split(separator);
+            } else {
+                return [];//得到的结果类型始终为数组类型
+            }
+        }
+    });
+    app.controller('MyMarkCtrl', function ($scope, $http, $filter) {
+        $scope.count = 0;
+        $scope.Digest_show_hide_val = {};
+        $scope.flg = 0;
+        // 客户基本信息表
+        $http({
+            method: 'post',
+            url: '/MyMark/getPoint',
+        }).success(function (req) {
+            if (req.Code == "1") {
+                $scope.RuleText = req.Data.IntroText; // 说明文本
+            } else {
+                //swal(req.Message);
+            }
+        }).error(function () {
+            swal(req.Code);
+            swal("网络繁忙,请稍后再试！");
+            });
+
+        $scope.GetMark = function () {
+            // 客户基本信息表
+            $http({
+                method: 'post',
+                url: '/MyMark/getMark',
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.ContinuousDate = req.Data.ContinuousDate; // 连续签到日期
+                    $scope.SignStatus = req.Data.SignStatus; // 签到状态
+                    $scope.Balance = req.Data.Balance; // 健康币余额
+                    $scope.IsMember = req.Data.IsMember; // 是否会员
+                    $scope.CustomerCode = req.Data.CustomerCode; // 客户编号
+                    if (req.Data.IsMember == 2) {
+                        $scope.GetMember();
+                    }
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetMember = function () {
+            // 取得会员信息
+            $http({
+                method: 'post',
+                url: '/MyMark/getMember'
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.LevelID = req.Data.LevelID; // 会员级别ID
+                    $scope.GetMemberLevel();
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetMemberLevel = function () {
+            // 取得会员等级信息
+            $http({
+                method: 'post',
+                url: '/MyMark/getMemberLevel',
+                params: {
+                    LevelID: $scope.LevelID
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.NextLevelID = req.Data.NextLevelID;
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        // 签到
+        $scope.SignIn = function () {
+            $http({
+                method: 'post',
+                url: '/MyMark/signIn',
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.ContinuousDate = req.Data.ContinuousDate; // 连续签到日期
+                    $scope.SignStatus = req.Data.SignStatus; // 签到状态
+                    $scope.Balance = req.Data.Balance; // 健康币余额
+                    $scope.IsMember = req.Data.IsMember; // 是否会员
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        $scope.GetCoupon = function () {
+            // 优惠券取得
+            $http({
+                method: 'post',
+                url: '/MyMark/getCoupon',
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    var couponList = $scope.couponList = [];
+                    $scope.addCouponList = function () {
+                        for (var i in req.Data) {
+                            couponList.push({
+                                id: req.Data[i].ID, // 优惠券属性表.优惠券ID
+                                type: req.Data[i].Type, // 优惠券属性表.类型(1：现金券 2：满减券 3：打折券 4：兑换券)
+                                rule: $filter('toArray')(req.Data[i].Rule), // 优惠券属性表.规则
+                                name: req.Data[i].Name, // 优惠券属性表.名称
+                                exchangeAmount: req.Data[i].ExchangeAmount,// 优惠券属性表.兑换金额
+                                detail: req.Data[i].Detail, // 优惠券属性表.详情
+                                count: $scope.count
+                            });
+                            $scope.Digest_show_hide_val[$scope.count] = false;
+                            $scope.count = $scope.count + 1;
+                        }
+                    };
+                    $scope.addCouponList();
+                } else {
+                    $scope.flg = 1;
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+        // 优惠券兑换
+        $scope.BalanceExchange = function (couponID, exchangeAmount) {
+            $http({
+                method: 'post',
+                url: '/MyHome/balanceExchange',
+                params: {
+                    CouponID: couponID,
+                    ExchangeAmount: exchangeAmount,
+                }
+            }).success(function (req) {
+                if (req.Code == "1") {
+                    $scope.GetMark();
+                    swal("兑换成功");
+                } else {
+                    swal(req.Message);
+                }
+            }).error(function () {
+                swal(req.Code);
+                swal("网络繁忙,请稍后再试！");
+            });
+        };
+
+        $scope.Digest_show = function (count) {
+            $scope.Digest_show_hide_val[count] = !$scope.Digest_show_hide_val[count];
+        }
+
+        $scope.GetMark();
+        $scope.GetCoupon();
+    });
+</script>

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4DC6376F-FF15-48E3-8E21-45574EF37821}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>"%24/DY/Model", CQJEAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccAuxPath />
+    <SccProvider>MSSCCI:Microsoft Visual SourceSafe</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Manage_Model\Advisory_Model.cs" />
+    <Compile Include="Manage_Model\Banner_Model.cs" />
+    <Compile Include="Manage_Model\Channel_Model.cs" />
+    <Compile Include="Manage_Model\Coupon_Model.cs" />
+    <Compile Include="Manage_Model\Department_Model.cs" />
+    <Compile Include="Manage_Model\Hospital_Model.cs" />
+    <Compile Include="Manage_Model\Level_Model.cs" />
+    <Compile Include="Manage_Model\LoginView_Model.cs" />
+    <Compile Include="Manage_Model\MemberAct_Model.cs" />
+    <Compile Include="Manage_Model\MemberService_Model.cs" />
+    <Compile Include="Manage_Model\Order_Model.cs" />
+    <Compile Include="Manage_Model\Serivce_Model.cs" />
+    <Compile Include="Manage_Model\ServiceDoctor_Model.cs" />
+    <Compile Include="Manage_Model\Tag_Model.cs" />
+    <Compile Include="Manage_Model\Title_Model.cs" />
+    <Compile Include="Manage_Model\User_Model.cs" />
+    <Compile Include="Operate_Model\Act_Model.cs" />
+    <Compile Include="Operate_Model\Advisory_Model.cs" />
+    <Compile Include="Operate_Model\Address_Model.cs" />
+    <Compile Include="Operate_Model\Coupon_Model.cs" />
+    <Compile Include="Operate_Model\Family_Model.cs" />
+    <Compile Include="Operate_Model\File_Model.cs" />
+    <Compile Include="Operate_Model\MemberOperate_Model.cs" />
+    <Compile Include="Operate_Model\ProfileMessage_Model.cs" />
+    <Compile Include="Operate_Model\CustomerProfile_Model.cs" />
+    <Compile Include="Operate_Model\Doctor_Model.cs" />
+    <Compile Include="Operate_Model\Member_Model.cs" />
+    <Compile Include="Operate_Model\Login_Model.cs" />
+    <Compile Include="Manage_Model\SendMessage_Model.cs" />
+    <Compile Include="Operate_Model\CustomerMessage_Model.cs" />
+    <Compile Include="Operate_Model\ServiceOrderOperate_Model.cs" />
+    <Compile Include="Operate_Model\ServiceOrder_Model.cs" />
+    <Compile Include="Operate_Model\Feedback_Model.cs" />
+    <Compile Include="Operate_Model\UtilityOperate_Model.cs" />
+    <Compile Include="Operate_Model\WeChatReturn_Model.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Table_Model\ImaAdvisory_Model.cs" />
+    <Compile Include="Table_Model\InfDoctorService_Model.cs" />
+    <Compile Include="Table_Model\InfMemberAct_Model.cs" />
+    <Compile Include="Table_Model\InfFamily_Model.cs" />
+    <Compile Include="Table_Model\InfFeedback_Model.cs" />
+    <Compile Include="Table_Model\ImaService_Model.cs" />
+    <Compile Include="Table_Model\ImaCustomerProfile_Model.cs" />
+    <Compile Include="Table_Model\InfAddress_Model.cs" />
+    <Compile Include="Table_Model\InfMemberServiceDiscount_Model.cs" />
+    <Compile Include="Table_Model\InfMember_Model.cs" />
+    <Compile Include="Table_Model\InfCoupon_Model.cs" />
+    <Compile Include="Table_Model\InfCustomerProfile_Model.cs" />
+    <Compile Include="Table_Model\OpeJoinAct_Model.cs" />
+    <Compile Include="Table_Model\OpeAdvisory_Model.cs" />
+    <Compile Include="Table_Model\OpeCouponCode_Model.cs" />
+    <Compile Include="Table_Model\OpeComment_Model.cs" />
+    <Compile Include="Table_Model\OpeCustomerCoupon_Model.cs" />
+    <Compile Include="Table_Model\OpeMemberOrder_Model.cs" />
+    <Compile Include="Table_Model\OpeServiceOrder_Model.cs" />
+    <Compile Include="Table_Model\SetDistrict_Model.cs" />
+    <Compile Include="Table_Model\SetDepartment_Model.cs" />
+    <Compile Include="Table_Model\SetSignIn_Model.cs" />
+    <Compile Include="Table_Model\SetCardNumPas_Model.cs" />
+    <Compile Include="Table_Model\SetTag_Model.cs" />
+    <Compile Include="Table_Model\SetGetpoint_Model.cs" />
+    <Compile Include="Table_Model\SetMemberLevel_Model.cs" />
+    <Compile Include="Table_Model\InfService_Model.cs" />
+    <Compile Include="Table_Model\InfDoctor_Model.cs" />
+    <Compile Include="Table_Model\OpeSignIn_Model.cs" />
+    <Compile Include="Table_Model\OpeCustomerMessage_Model.cs" />
+    <Compile Include="Table_Model\OpeLoginHistory_Model.cs" />
+    <Compile Include="Table_Model\InfCustomer_Model.cs" />
+    <Compile Include="Table_Model\BasUser_Model.cs" />
+    <Compile Include="Table_Model\InfBanner_Model.cs" />
+    <Compile Include="View_Model\DoctorList_Model.cs" />
+    <Compile Include="View_Model\PaymentResultView_Model.cs" />
+    <Compile Include="View_Model\WXJsConfig_Model.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

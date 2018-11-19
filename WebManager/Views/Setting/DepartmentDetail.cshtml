@@ -1,0 +1,71 @@
+﻿@{
+    WebManager.Model.DepartmentDetail_Model view = new WebManager.Model.DepartmentDetail_Model();
+    Model.Manage_Model.Department_Model model = new Model.Manage_Model.Department_Model();
+    if (Model != null)
+    {
+        view = Model;
+        if (view.Data != null)
+        {
+            model = view.Data;
+        }
+
+    }
+}
+<script src="/Scripts/Department.js"></script>
+<!DOCTYPE html>
+<!--页面主体-->
+<div class="page-container">
+    <!--左侧菜单-->
+    @Html.Partial("Sidebar", 8)
+    <!--左侧菜单 结束-->
+    <!--右侧主体内容-->
+    <div class="page-content">
+        <div class="page-breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/Setting/DepartmentList">医院</a>
+                </li>
+                <li class="active">详情</li>
+            </ul>
+        </div>
+        <div class="page-body">
+            <div class="list-content">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">科室名称</label>
+                        <div class="col-lg-5">
+                            <input class="form-control gh-w-100p" type="text" placeholder="请输入科室名称" id="txtDepartmentName" value="@(model.DepartmentName)" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">介绍</label>
+                        <div class="col-lg-5">
+                            <select class="select form-control gh-w-100p col-sm-12" id="ddlUpper">
+                                <option value="0">请选择上级科室</option>
+                                @if (view.UpperList != null && view.UpperList.Count > 0)
+                                {
+                                    foreach (Model.Manage_Model.Department_Model item in view.UpperList)
+                                    {
+                                        <option value="@(item.DepartmentID)">@(item.DepartmentName)</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-7 text-right">
+                            <a class=" btn-info btn-lg" onclick=" window.location.href=document.referrer;">返 回</a>
+                            <a class=" btn-blue btn-lg" onclick="operateDepartment(@(view.DepartmentID))">保 存</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#ddlUpper").val(@(model.UpperID));
+    });
+</script>

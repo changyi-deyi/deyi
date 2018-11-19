@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="/assets/js/angular.js"></script>
+    <script src="/assets/js/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="/assets/js/ng-file-upload/ng-file-upload-shim.min.js"></script>
+    <title></title>
+    <script>
+        var app = angular.module('fileUpload', ['ngFileUpload']);
+
+        app.controller('MyCtrl', ['$scope', 'Upload', '$timeout', function ($scope, Upload, $timeout) {
+            $scope.uploadFiles = function (file, errFiles) {
+                $scope.f = file;
+                $scope.errFile = errFiles && errFiles[0];
+                if (file) {
+                    file.upload = Upload.upload({
+                        url: '/Sample/FileUpload1',
+                        data: { file: file,type:2}
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    }, function (evt) {
+                        file.progress = Math.min(100, parseInt(100.0 *
+                            evt.loaded / evt.total));
+                    });
+                }
+            }
+        }]);
+    </script>
+</head>
+
+<body ng-app="fileUpload" ng-controller="MyCtrl">
+    <h4>Upload on file select</h4>
+    <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+            accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+        Select File
+    </button>
+    <br><br>
+    File:
+    <div style="font:smaller">
+        {{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+        <span class="progress" ng-show="f.progress >= 0">
+            <div style="width:{{f.progress}}%"
+                 ng-bind="f.progress + '%'"></div>
+        </span>
+    </div>
+    {{errorMsg}}
+</body>
+</html>
